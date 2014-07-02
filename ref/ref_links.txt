@@ -1,0 +1,22 @@
+Lightbox:
+http://www.lokeshdhakar.com/projects/lightbox2/?u=9
+
+
+glasscase:
+http://tinycomp.net/products/glasscase/glasscase.aspx
+
+Wizard:
+http://sathomas.me/acc-wizard/#addwizard
+http://vadimg.com/twitter-bootstrap-wizard-example/
+
+
+http://angular-ui.github.io/bootstrap/
+
+
+http://www.jqueryscript.net/demo/password-strength-meter/
+
+admin layout:
+http://themepixels.com/demo/webpage/bracket/
+
+
+http://www.zepo.in/
