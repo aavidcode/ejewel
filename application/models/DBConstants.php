@@ -36,5 +36,5 @@ interface DBConstants {
     const MF_PROD_STONE = 'mf_prod_stone';
     const MF_PROD_COLORED_STONE = 'mf_prod_colored_stone';
     const MF_PROD_LABOR = 'mf_prod_labor';
-
+    
 }

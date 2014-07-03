@@ -45,7 +45,7 @@
                             <a href="#page-top"></a>
                         </li>
                         <li class="page-scroll">
-                            <a href="user/register"><i class="fa fa-user"></i> Register</a>
+                            <a href="main/register"><i class="fa fa-user"></i> Register</a>
                         </li>
                     </ul>
                 </div>

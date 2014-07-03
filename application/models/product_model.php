@@ -5,9 +5,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-include_once( APPPATH . 'models/basic_model' . EXT );
+include_once( APPPATH . 'models/component_model' . EXT );
 
-class Product_model extends Basic_model {
+class Product_model extends Component_model {
 
     public function add_prod($data) {
         $this->db->insert(self::MF_PROD_SUMMARY, $data);

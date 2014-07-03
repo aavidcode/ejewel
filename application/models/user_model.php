@@ -12,9 +12,9 @@ use models\DBConstants;
 
 class User_model extends CI_Model implements DBConstants {
 
-    public function validateLogin($username, $password) {
-        $sql = "SELECT * FROM " . self::USER_TABLE . " WHERE EMAIL_ID = ? AND PASS_WORD = ?";
-        $query = $this->db->query($sql, array($username, $password));
+    public function validateLogin($email_id, $password, $user_id) {
+        $sql = "SELECT * FROM " . self::USER_TABLE . " WHERE EMAIL_ID = ? AND PASS_WORD = ? AND USER_ID = ?";
+        $query = $this->db->query($sql, array($email_id, $password, $user_id));
         return $query->row();
     }
 
@@ -41,7 +41,7 @@ class User_model extends CI_Model implements DBConstants {
     }
 
     public function isUserExist($user_name) {
-        return ($this->get_user_id($user_name) != '');
+        return ($this->getUserID($user_name) != '');
     }
 
     public function getUserID($user_name) {

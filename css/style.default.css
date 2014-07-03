@@ -12,6 +12,7 @@
 
 body {
     background: #1d2939;
+/*    background: #e4e7ea;*/
     font-family: 'LatoRegular', 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif !important;
     line-height: 21px;
     color: #636e7b;
@@ -57,7 +58,7 @@ strong {
     left: 50%; 
     top: 50%;
     margin: -15px 0 0 -15px;
-    font-size: 32px;
+
 }
 
 
@@ -4007,35 +4008,35 @@ div.error label.error:before {
 
 /* Liquid Carousel */
 .liquid {
-	padding:10px 0;
+    padding:10px 0;
 }
 .liquid .previous {
-	display:block;
-	height:64px;
-	width:64px;
-	background-image:url('../images/previous.png');
-	float:left;
-	margin:0;
-	padding:0;
-        margin-top: 10px;
+    display:block;
+    height:64px;
+    width:64px;
+    background-image:url('../images/previous.png');
+    float:left;
+    margin:0;
+    padding:0;
+    margin-top: 10px;
 }
 .liquid .next {
-	display:block;
-	height:64px;
-	width:64px;
-	background-image:url('../images/next.png');
-	float:right;
-	margin:0;
-	padding:0;
-        margin-top: 10px;
+    display:block;
+    height:64px;
+    width:64px;
+    background-image:url('../images/next.png');
+    float:right;
+    margin:0;
+    padding:0;
+    margin-top: 10px;
 }
 .liquid ul li {
-	width:80px;
-	padding:0 2px;
-	margin:0;
+    width:80px;
+    padding:0 2px;
+    margin:0;
 }
 .liquid ul li a img {
-    
+
 }
 /* Liquid Carousel */
 #table_prod_grid table th {
@@ -4064,7 +4065,7 @@ div.error label.error:before {
 .table-no-border>thead>tr>td, 
 .table-no-border>tbody>tr>td, 
 .table-no-border>tfoot>tr>td {
-  border: none; 
+    border: none; 
 }
 /** My Own **/
 

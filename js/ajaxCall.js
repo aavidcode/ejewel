@@ -93,11 +93,11 @@ function ajaxCallCommonReqWithRef(requestTo, reqData, req, ref) {
                     ref.data('ajax-load', 'true');
                 }
             } else {
-                if (req === 'email_val' || req === 'domain_name') {
-                    alert(data.message);
+                if (req === 'email_id' || req === 'domain_name') {
                     ref.val('').focus();
+                    $('html,body').animate({scrollTop: $('form').offset().top}, 800);
                 }
-                bootstrap_alert('error', data.message, 5000);
+                bootstrap_alert('danger', data.message, 5000);
             }
             $('#ajax_load_' + req).hide();
         },

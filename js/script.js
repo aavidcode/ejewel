@@ -241,3 +241,17 @@ function add_component() {
     $("#comp_count").val(rowCount);
     reset_form(data_type);
 }
+
+var toHandle = function(result) {
+    return result.toLowerCase()
+            .replace(/[\'\"\(\)\[\]]/g, "")
+            .replace(/\W/g, " ")
+            .replace(/\ +/g, "-")
+            .replace(/(-+)$/g, "")
+            .replace(/^(-+)/g, "");
+};
+
+function closeMe() {
+    var win = window.open("", "_self"); /* url = "" or "about:blank"; target="_self" */
+    win.close();
+}

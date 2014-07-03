@@ -1,5 +1,46 @@
 <?php
 
+function validate_user($user) {
+    if ($user) {
+        if (!$user->IS_VERIFIED) {
+            return 'You email is not verified';
+        } else if (!$user->IS_ACTIVE) {
+            return "You account is not approved by admin";
+        }
+        return '';
+    }
+    return 'Invalid Login';
+}
+
+function validateLogin($red_url) {
+    $CI = & get_instance();
+    $email_id = $CI->input->post('email_id');
+    $password = $CI->input->post('pass_word');
+    $user_id = $CI->input->post('user_id');
+    $user = $CI->User_model->validateLogin($email_id, $CI->encrypt->my_encode($password), $user_id);
+    $message = validate_user($user);
+    if ($message == "") {
+        setUserSession($user);
+        $res['error'] = false;
+        $res['redirect'] = $red_url;
+    } else {
+        $res['error'] = true;
+        $res['message'] = $message;
+    }
+    json_output($res);
+}
+
+function setUserSession($user) {
+    $CI = & get_instance();
+    $CI->session->set_userdata('user_data', array(
+        'first_name' => $user->FIRST_NAME,
+        'email_id' => $user->EMAIL_ID,
+        'user_role' => $user->USER_ROLE
+    ));
+    $CI->session->set_userdata('user_id', $user->USER_ID);
+    $CI->session->set_userdata('user_name', $user->USER_NAME);
+}
+
 function upload_file($file, $path, $target_name = '') {
     $allowedExts = array("gif", "jpeg", "jpg", "png");
     $temp = explode(".", $_FILES[$file]["name"]);
@@ -55,35 +96,57 @@ function create_thumb($path_to_image_directory, $filename, $path_to_thumbs_direc
     return $thumb_filename;
 }
 
-function load_view($view_name, $data) {
+function loadMainView($view_name, $data) {
     $CI = & get_instance();
     $data['web_title'] = $CI->config->item('website_title');
-    $CI->load->view('templates/header', $data);
-    $CI->load->view('templates/nav', $data);
-    $CI->load->view($view_name, $data);
-    $CI->load->view('templates/footer');
+    $CI->load->view('main/templates/header', $data);
+    $CI->load->view('main/templates/nav', $data);
+    $CI->load->view('main/'.$view_name, $data);
+    $CI->load->view('main/templates/footer');
 }
 
-//function admin_load_view($view_name, $data, $side_bar = true) {
-//    $CI = & get_instance();
-//    $data['web_title'] = $CI->config->item('website_title');
-//    $CI->load->view('templates/header', $data);
-//    $CI->load->view('templates/nav', $data);
-//    if ($side_bar) {
-//        $CI->load->view('admin/products/sidebar');
-//    }
-//    $CI->load->view($view_name, $data);
-//    $CI->load->view('templates/footer');
-//}
+function loadMainViewWithContent($view_name, $data) {
+    $CI = & get_instance();
+    $data['web_title'] = $CI->config->item('website_title');
+    $CI->load->view('main/templates/header', $data);
+    $CI->load->view('main/'.$view_name, $data);
+    $CI->load->view('main/templates/footer');
+}
 
-function admin_load_view($view_name, $data) {
+function loadAdminView($view_name, $data) {
     $CI = & get_instance();
     $data['web_title'] = $CI->config->item('website_title');
     $CI->load->view('admin/templates/header', $data);
     $CI->load->view('admin/templates/left_nav', $data);
     $CI->load->view('admin/templates/top_nav', $data);
-    $CI->load->view($view_name, $data);
+    $CI->load->view('admin/'.$view_name, $data);
     $CI->load->view('admin/templates/footer');
+}
+
+function loadAdminWithContent($view_name, $data) {
+    $CI = & get_instance();
+    $data['web_title'] = $CI->config->item('website_title');
+    $CI->load->view('master/templates/header', $data);
+    $CI->load->view('master/'.$view_name, $data);
+    $CI->load->view('master/templates/footer');
+}
+
+function loadMasterView($view_name, $data) {
+    $CI = & get_instance();
+    $data['web_title'] = $CI->config->item('website_title');
+    $CI->load->view('master/templates/header', $data);
+    $CI->load->view('master/templates/left_nav', $data);
+    $CI->load->view('master/templates/top_nav', $data);
+    $CI->load->view('master/'.$view_name, $data);
+    $CI->load->view('master/templates/footer');
+}
+
+function loadMasterWithContent($view_name, $data) {
+    $CI = & get_instance();
+    $data['web_title'] = $CI->config->item('website_title');
+    $CI->load->view('master/templates/header', $data);
+    $CI->load->view('master/'.$view_name, $data);
+    $CI->load->view('master/templates/footer');
 }
 
 function json_output($res) {
@@ -91,14 +154,9 @@ function json_output($res) {
     $CI->output->set_content_type('application/json')->set_output(json_encode($res));
 }
 
-function ses_data($key) {
+function ses_data($key, $val='') {
     $CI = & get_instance();
-    return $CI->session->userdata($key);
-}
-
-function ses_set($key, $val) {
-    $CI = & get_instance();
-    $CI->session->set_userdata($key, $val);
+    return ($val != '') ? $CI->session->set_userdata($key, $val) : $CI->session->userdata($key);
 }
 
 function unses_set($key) {

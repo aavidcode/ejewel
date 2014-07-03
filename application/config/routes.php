@@ -39,9 +39,14 @@
 */
 
 //$route['(:any)'] = "pages/view/$1";
-//$route['default_controller'] = "pages/view";
-$route['default_controller'] = "welcome";
+$route['default_controller'] = "main";
 $route['404_override'] = '';
+
+//$route['admin/(:any)'] = 'admin/index/$1';
+//$route['admin/user/(:num)/(:any)'] = 'admin/user/';
+//$route['admin/product/(:num)/(:any)'] = 'admin/product/';
+//
+//$route['master/user/(:num)/(:any)'] = 'master/user/';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
