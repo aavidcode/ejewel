@@ -6,59 +6,6 @@
  * and open the template in the editor.
  */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function update_or_view($prod_id) {
-    $CI = & get_instance();
-    if ($CI->input->post()) {
-        update_product($prod_id);
-    } else {
-        view_product($prod_id);
-    }
-}
-
-function view_product($prod_id) {
-    $CI = & get_instance();
-    $data = getCommonData();
-    $prod_sum_det = $CI->Product_model->product_details($prod_id);
-    $data['component'] = $CI->component();
-    $data['category_opt'] = cat_opt($CI->category(), $prod_sum_det->CAT_ID);
-    $data['prod_type_opt'] = prod_type_opt($CI->prod_type(), $prod_sum_det->PROD_TYPE_ID);
-    $data['price_type_opt'] = price_type_opt($CI->price_type(), $prod_sum_det->PRICE_TYPE_ID);
-    $mf_prod_component = $CI->Product_model->mf_prod_component($prod_id);
-    $data['sub_com_data'] = array(
-        'component_type' => $CI->component_type(),
-        'stone_clarity' => $CI->stone_clarity(),
-        'stone_color' => $CI->stone_color(),
-        'stone_cut' => $CI->stone_cut(),
-        'stone_shape' => $CI->stone_shape(),
-        'c_stone_type' => $CI->c_stone_type(),
-        'c_stone_category' => $CI->c_stone_category(),
-        'c_stone_color' => $CI->c_stone_color(),
-        'prod_sum_det' => $prod_sum_det,
-        'mf_prod_component' => $mf_prod_component,
-        'comp_data' => get_comp_data($mf_prod_component, $prod_id)
-    );
-    $data['title'] = $prod_sum_det->PROD_NAME;
-    admin_load_view('admin/products/edit_prod', $data);
-}
-
 function get_comp_data($mf_prod_component, $prod_id) {
     $CI = & get_instance();
     $comp_arr = array();

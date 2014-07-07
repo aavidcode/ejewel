@@ -30,6 +30,25 @@ function validateLogin($red_url) {
     json_output($res);
 }
 
+function getDBComponentData() {
+    $CI = & get_instance();
+    return array(
+        'component_type' => $CI->component_type(),
+        'stone_clarity' => $CI->stone_clarity(),
+        'stone_color' => $CI->stone_color(),
+        'stone_cut' => $CI->stone_cut(),
+        'stone_shape' => $CI->stone_shape(),
+        'stone_size' => $CI->stone_size(),
+        'stone_seiv_size_from' => $CI->stone_seiv_size_from(),
+        'stone_seiv_size_to' => $CI->stone_seiv_size_to(),
+        'stone_fluorescence' => $CI->stone_fluorescence(),
+        'stone_placement' => $CI->stone_placement(),
+        'c_stone_category' => $CI->c_stone_category(),
+        'c_stone_color' => $CI->c_stone_color(),
+        'c_stone_cut' => $CI->c_stone_cut(),
+    );
+}
+
 function setUserSession($user) {
     $CI = & get_instance();
     $CI->session->set_userdata('user_data', array(
@@ -101,7 +120,7 @@ function loadMainView($view_name, $data) {
     $data['web_title'] = $CI->config->item('website_title');
     $CI->load->view('main/templates/header', $data);
     $CI->load->view('main/templates/nav', $data);
-    $CI->load->view('main/'.$view_name, $data);
+    $CI->load->view('main/' . $view_name, $data);
     $CI->load->view('main/templates/footer');
 }
 
@@ -109,7 +128,7 @@ function loadMainViewWithContent($view_name, $data) {
     $CI = & get_instance();
     $data['web_title'] = $CI->config->item('website_title');
     $CI->load->view('main/templates/header', $data);
-    $CI->load->view('main/'.$view_name, $data);
+    $CI->load->view('main/' . $view_name, $data);
     $CI->load->view('main/templates/footer');
 }
 
@@ -119,7 +138,7 @@ function loadAdminView($view_name, $data) {
     $CI->load->view('admin/templates/header', $data);
     $CI->load->view('admin/templates/left_nav', $data);
     $CI->load->view('admin/templates/top_nav', $data);
-    $CI->load->view('admin/'.$view_name, $data);
+    $CI->load->view('admin/' . $view_name, $data);
     $CI->load->view('admin/templates/footer');
 }
 
@@ -127,7 +146,7 @@ function loadAdminWithContent($view_name, $data) {
     $CI = & get_instance();
     $data['web_title'] = $CI->config->item('website_title');
     $CI->load->view('master/templates/header', $data);
-    $CI->load->view('master/'.$view_name, $data);
+    $CI->load->view('master/' . $view_name, $data);
     $CI->load->view('master/templates/footer');
 }
 
@@ -137,7 +156,7 @@ function loadMasterView($view_name, $data) {
     $CI->load->view('master/templates/header', $data);
     $CI->load->view('master/templates/left_nav', $data);
     $CI->load->view('master/templates/top_nav', $data);
-    $CI->load->view('master/'.$view_name, $data);
+    $CI->load->view('master/' . $view_name, $data);
     $CI->load->view('master/templates/footer');
 }
 
@@ -145,7 +164,7 @@ function loadMasterWithContent($view_name, $data) {
     $CI = & get_instance();
     $data['web_title'] = $CI->config->item('website_title');
     $CI->load->view('master/templates/header', $data);
-    $CI->load->view('master/'.$view_name, $data);
+    $CI->load->view('master/' . $view_name, $data);
     $CI->load->view('master/templates/footer');
 }
 
@@ -154,7 +173,7 @@ function json_output($res) {
     $CI->output->set_content_type('application/json')->set_output(json_encode($res));
 }
 
-function ses_data($key, $val='') {
+function ses_data($key, $val = '') {
     $CI = & get_instance();
     return ($val != '') ? $CI->session->set_userdata($key, $val) : $CI->session->userdata($key);
 }
@@ -175,4 +194,17 @@ function del_prod_image($prod_img, $del_img, $path = '') {
         }
     }
     return substr($img_str, 0, strlen($img_str) - 1);
+}
+
+function stdToArray($arr) {
+    return json_decode(json_encode($arr), true);
+}
+
+function unsetArrByKeys($arr, $keys) {
+    foreach ($keys as $key) {
+        if (isset($arr[$key])) {
+            unset($arr[$key]);
+        }
+    }
+    return $arr;
 }

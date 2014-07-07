@@ -12,10 +12,15 @@ class Component extends CI_Controller {
     protected $stone_color = null;
     protected $stone_cut = null;
     protected $stone_shape = null;
+    protected $stone_size = null;
+    protected $stone_seiv_size_from = null;
+    protected $stone_seiv_size_to = null;
+    protected $stone_fluorescence = null;
+    protected $stone_placement = null;
     //Colored Stone
-    protected $c_stone_type = null;
     protected $c_stone_category = null;
     protected $c_stone_color = null;
+    protected $c_stone_cut = null;
 
     public function __construct() {
         parent::__construct();
@@ -65,16 +70,36 @@ class Component extends CI_Controller {
         return $this->stone_shape;
     }
 
-    public function c_stone_type() {
-        return $this->c_stone_type;
+    public function stone_size() {
+        return $this->stone_size;
     }
 
+    public function stone_seiv_size_from() {
+        return $this->stone_seiv_size_from;
+    }
+    
+    public function stone_seiv_size_to() {
+        return $this->stone_seiv_size_to;
+    }
+    
+    public function stone_fluorescence() {
+        return $this->stone_fluorescence;
+    }
+    
+    public function stone_placement() {
+        return $this->stone_placement;
+    }
+    
     public function c_stone_category() {
         return $this->c_stone_category;
     }
 
     public function c_stone_color() {
         return $this->c_stone_color;
+    }
+    
+    public function c_stone_cut() {
+        return $this->c_stone_cut;
     }
 
     public function component_val($id) {
@@ -105,11 +130,16 @@ class Component extends CI_Controller {
         $this->stone_color = $this->Product_model->stone_color();
         $this->stone_cut = $this->Product_model->stone_cut();
         $this->stone_shape = $this->Product_model->stone_shape();
+        $this->stone_size = $this->Product_model->stone_size();
+        $this->stone_seiv_size_from = $this->Product_model->stone_seiv_size_from();
+        $this->stone_seiv_size_to = $this->Product_model->stone_seiv_size_to();
+        $this->stone_fluorescence = $this->Product_model->stone_fluorescence();
+        $this->stone_placement = $this->Product_model->stone_placement();
 
         //Colored Stone
-        $this->c_stone_type = $this->Product_model->c_stone_type();
         $this->c_stone_category = $this->Product_model->c_stone_category();
         $this->c_stone_color = $this->Product_model->c_stone_color();
+        $this->c_stone_cut = $this->Product_model->c_stone_cut();
     }
 
     public function comp_types($comp_id) {

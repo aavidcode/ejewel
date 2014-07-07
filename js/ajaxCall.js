@@ -1,6 +1,6 @@
 function ajaxCallUpdateCombo(type, requestTo, source, destination, req, defVal) {
     var selVal = $("#" + source).val();
-    $("#ajax_loader").show();
+    $("#" + req + "_loader").show();
     if (selVal != "") {
         $.ajax({
             type: 'POST',
@@ -16,7 +16,7 @@ function ajaxCallUpdateCombo(type, requestTo, source, destination, req, defVal) 
                 if (data.error === false) {
                     var msgArr = data.msg.split("@");
                     $('#' + destination + ' >option').remove();
-                    $("<option value=''>Select One</option>").appendTo("#" + destination);
+                    $("<option value=''></option>").appendTo("#" + destination);
                     for (x in msgArr) {
                         var arrData = msgArr[x].split("#");
                         if (arrData.length == 2) {
@@ -31,11 +31,11 @@ function ajaxCallUpdateCombo(type, requestTo, source, destination, req, defVal) 
                     if (flag) {
                         $("#" + destination).show();
                         $("#" + destination + '_par').fadeIn('slow');
-                        $("#ajax_loader").hide();
                     }
                 } else {
                     $("#" + destination).hide();
                 }
+                $("#" + req + "_loader").hide();
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 alert(errorThrown);
@@ -91,6 +91,13 @@ function ajaxCallCommonReqWithRef(requestTo, reqData, req, ref) {
                     ref.html(data.message);
                     ref.slideDown(500);
                     ref.data('ajax-load', 'true');
+                } else if (req === 'prod_activate') {
+                    var active = (reqData.status === '1');
+                    ref.attr('data-status', (active ? '0' : '1'));
+                    ref.find('i').removeClass('fa-check').removeClass('fa-times');
+                    ref.fadeIn("slow", function() {
+                        ref.find('i').addClass('fa-' + (!active ? 'times' : 'check'));
+                    });
                 }
             } else {
                 if (req === 'email_id' || req === 'domain_name') {
@@ -171,8 +178,9 @@ function ajaxSubmitForm(form, req, show_alert) {
                         } else if (req == 'add_prod') {
                             jQuery('#prod_data_det').delay(350).fadeOut(function() {
                                 jQuery('#image_upload_det').delay(350).fadeIn('slow');
+                                $('html,body').animate({scrollTop: 30}, 'slow');
                             });
-                        } 
+                        }
 
                         if (data.message != undefined && data.message != '') {
                             bootstrap_alert('success', data.message, 5000);

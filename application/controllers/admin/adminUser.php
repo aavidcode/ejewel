@@ -11,7 +11,7 @@ class AdminUser extends AdminProduct {
     public function logout() {
         $user_name = ses_data('user_name');
         $this->session->sess_destroy();
-        redirect('user/home/' . $user_name);
+        redirect('main/home/' . $user_name);
     }
     
     public function per_det() {

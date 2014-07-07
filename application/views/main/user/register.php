@@ -35,7 +35,7 @@
                     <div id="form_errors"></div>
                     <?php echo form_open('', array('class' => 'form-horizontal', 'id' => 'registerForm', 'role' => 'form', 'autocomplete' => 'off')); ?>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-3 control-label">Your Store Name <span class="m_f">*</span> : </label>
+                        <label for="inputEmail3" class="col-sm-3 control-label">Your Store Web Url <span class="m_f">*</span> : </label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control required" name="domain_name" placeholder="Your Store Name" />
                             <input type="hidden" name="domain_f_name" maxlength="20" />

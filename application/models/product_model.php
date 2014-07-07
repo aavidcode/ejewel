@@ -85,9 +85,14 @@ class Product_model extends Component_model {
         $query = $this->db->get_where(self::MF_PROD_LABOR, array('PROD_ID' => $prod_id));
         return $query->result();
     }
+    
+    public function mf_prod_other_charges($prod_id) {
+        $query = $this->db->get_where(self::MF_PROD_OTHER_CHARGES, array('PROD_ID' => $prod_id));
+        return $query->result();
+    }
 
     public function mf_prod_component($prod_id) {
-        $sql = "select a.P_COMP_ID, a.COMP_ID, b.COMP_NAME, b.COMP_CODE, c.COMP_TYPE_ID, c.COMP_TYPE_NAME from " . self::MF_PROD_COMPONENT . " a inner join " . self::COMPONENT . " b on a.COMP_ID = b.COMP_ID left join " . self::COMPONENT_TYPE . " c on a.COMP_TYPE_ID = c.COMP_TYPE_ID where a.PROD_ID = " . $prod_id;
+        $sql = "select a.P_COMP_ID, a.COMP_ID, a.COMP_TABLE, b.COMP_NAME, b.COMP_CODE, c.COMP_TYPE_ID, c.COMP_TYPE_NAME from " . self::MF_PROD_COMPONENT . " a inner join " . self::COMPONENT . " b on a.COMP_ID = b.COMP_ID left join " . self::COMPONENT_TYPE . " c on a.COMP_TYPE_ID = c.COMP_TYPE_ID where a.PROD_ID = " . $prod_id;
         $query = $this->db->query($sql);
         return $query->result();
     }
@@ -97,4 +102,7 @@ class Product_model extends Component_model {
         return $query->row();
     }
 
+    public function add_prod_history($data) {
+        return $this->db->insert(self::PROD_HISTORY, $data);
+    }
 }

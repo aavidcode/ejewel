@@ -18,6 +18,20 @@ class MainUser extends MainProduct {
         $this->session->sess_destroy();
         redirect('login/'.$user_name.'/'.$user_id);
     }
+    
+    public function login($user_id) {
+        if ($this->input->post()) {
+            validateLogin('admin/dashboard');
+        } else {
+            $data = getSiteCommonData();
+            $data['title'] = "Login Page";
+            $data['top_menu'] = false;
+            $data['hide_login'] = true;
+            $data['footer_menu'] = false;
+            $data['user_id'] = $user_id;
+            loadMainView('user/login', $data);
+        }
+    }
 
     public function register() {
         if ($this->input->post()) {
@@ -35,32 +49,11 @@ class MainUser extends MainProduct {
         } else {
             $data['title'] = "User Registration Page";
             $data['site_user_name'] = '';
+            $data['site_user_id'] = '';
             $data['top_menu'] = false;
+            $data['hide_login'] = true;
             $data['footer_menu'] = false;
             loadMainView('user/register', $data);
-        }
-    }
-
-    public function login($user_name, $user_id) {
-        if ($this->input->post()) {
-            $user = $this->User_model->validateLogin($this->input->post('user_name'), $this->encrypt->my_encode($this->input->post('pass_word')));
-            $message = validate_user($user, $role);
-            if ($message == "") {
-                setUserSession($user);
-                $res['error'] = false;
-                $res['redirect'] = 'admin/dashboard';
-            } else {
-                $res['error'] = true;
-                $res['message'] = $message;
-            }
-            json_output($res);
-        } else {
-            $data = getSiteCommonData();
-            $data['title'] = "Login Page";
-            $data['top_menu'] = false;
-            $data['footer_menu'] = false;
-            $data['user_id'] = $user_id;
-            loadMainView('user/login', $data);
         }
     }
 

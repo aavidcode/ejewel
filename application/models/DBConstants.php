@@ -13,8 +13,6 @@ interface DBConstants {
     //User
     const USER_TABLE = "user_table";
     const USER_STORE_SETTINGS = "user_store_settings";
-    //Product
-    const MF_PROD_SUMMARY = "mf_prod_summary";
     //Common
     const COMPONENT = "component";
     const COMPONENT_TYPE = "component_type";
@@ -36,11 +34,13 @@ interface DBConstants {
     const STONE_FLUORESCENCE = "stone_fluorescence";
     const STONE_PLACEMENT = "stone_placement";
     //MF Tables
+    const MF_PROD_SUMMARY = "mf_prod_summary";
     const MF_PROD_COMPONENT = 'mf_prod_component';
     const MF_PROD_METAL = 'mf_prod_metal';
     const MF_PROD_STONE = 'mf_prod_diamond';
     const MF_PROD_COLORED_STONE = 'mf_prod_colored_stone';
     const MF_PROD_LABOR = 'mf_prod_labor';
     const MF_PROD_OTHER_CHARGES = 'mf_prod_other_charges';
-    
+    const PROD_HISTORY = 'prod_history';
+
 }

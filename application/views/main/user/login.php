@@ -21,11 +21,10 @@
         </div><!-- col-sm-7 -->
 
         <div class="col-md-5">
-
             <?php echo form_open('', array('id' => 'loginForm', 'role' => 'form', 'autocomplete' => 'off')); ?>
             <h4 class="nomargin">Sign In</h4>
             <p class="mt5 mb20">Login to access your account.</p>
-
+            <div id="form_errors"></div>
             <input type="text" class="form-control required uname" id="user_name" name="email_id" placeholder="Username">
             <input type="password" class="form-control required pword" id="inputPassword3" name="pass_word" placeholder="Password">
             <a href=""><small>Forgot Your Password?</small></a>

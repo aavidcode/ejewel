@@ -34,8 +34,8 @@
                         <li><a href="email.html"><i class="fa fa-envelope-o"></i> <span>Email</span></a></li>
                         <li class="nav-parent nav-active active"><a href=""><i class="fa fa-edit"></i> <span>Product</span></a>
                             <ul class="children" style="display: block;">
-                                <li><a href="admin/products/"><i class="fa fa-caret-right"></i> View All</a></li>
-                                <li><a href="admin/products/add"><i class="fa fa-caret-right"></i> Add Product</a></li>
+                                <li><a href="admin/product/viewAll"><i class="fa fa-caret-right"></i> View All</a></li>
+                                <li><a href="admin/product/add"><i class="fa fa-caret-right"></i> Add Product</a></li>
                             </ul>
                         </li>
                         

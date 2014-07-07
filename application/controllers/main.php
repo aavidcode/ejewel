@@ -70,4 +70,7 @@ class main extends MainUser {
         loadMainView('user/thankyou', $data);
     }
 
+    public function demo() {
+        $this->load->view('demo');
+    }
 }

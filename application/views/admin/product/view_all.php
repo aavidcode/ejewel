@@ -23,14 +23,14 @@
 
             <h4 class="subtitle mb5">Category</h4>
             <select name="category" class="form-control">
-              <?php echo $category_opt; ?>      
+                <?php echo $category_opt; ?>      
             </select>
 
             <div class="mb10"></div>
 
             <h4 class="subtitle mb5">Type</h4>
             <select name="prod_type" class="form-control">
-              <?php echo $prod_type_opt; ?>      
+                <?php echo $prod_type_opt; ?>      
             </select>
 
             <div class="mb10"></div>
@@ -79,7 +79,6 @@
                                 foreach ($component_type as $comp_type) {
                                     echo $comp_type->COMP_TYPE_NAME . ' Cost<br>';
                                 }
-                                
                                 ?>
                             </th>
                             <th>Diam Cost<br>CS Cost<br>Labour Cost</th>
@@ -152,21 +151,26 @@
                             $labour_cost = ($is_labour ? $labour_det[0]->MF_PRICE : 0);
                             $total_cost += ($dia_cost + $cs_cost + $labour_cost);
                             echo '</td>';
-                            echo '<td class="t_right">'.number_format($dia_cost, 2) . '<br>' . number_format($cs_cost, 2) . '<br>' . number_format($labour_cost, 2).'</td>';
+                            echo '<td class="t_right">' . number_format($dia_cost, 2) . '<br>' . number_format($cs_cost, 2) . '<br>' . number_format($labour_cost, 2) . '</td>';
                             echo '</tr>';
                             echo '<tr class="table_price_footer">';
-                            echo '<td></td>';
-                            echo '<td></td>';
-                            echo '<td></td>';
-                            echo '<td>' . $total_metal_weight . '</td>';
-                            echo '<td>' . $total_stone_weight . '</td>';
-                            echo '<td></td>';
-                            echo '<td></td>';
-                            echo '<td></td>';
-                            echo '<td colspan="2" class="t_right bold"><span style="font-weight:normal;">Total Price : </span> ' . number_format($total_cost>0 ? $total_cost : $prod_summ->MF_TOTAL_PRICE, 2) . '</td>';
-                            echo '</tr>';
-                            echo '<tr id="inner_dets_' . $prod_id . '" class="hide">';
                             ?>
+                        <td colspan="3" class="people-item">
+                            <ul class="social-list m_0">
+                                <li><a href="admin/product/update/<?php echo $prod_id; ?>" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Email"><i class="fa fa-edit"></i></a></li>
+                                <li><a href="javascript:;" data-id="<?php echo $prod_id; ?>" data-status="<?php echo ($prod_summ->PROD_STATUS ? '1' : '0'); ?>" class="tooltips prod_active" data-toggle="tooltip" data-placement="top" title="" data-original-title="Email"><i class="fa fa-<?php echo ($prod_summ->PROD_STATUS ? 'times' : 'check'); ?>"></i></a></li>
+                            </ul>
+                        </td>
+                        <?php
+                        echo '<td>' . $total_metal_weight . '</td>';
+                        echo '<td>' . $total_stone_weight . '</td>';
+                        echo '<td></td>';
+                        echo '<td></td>';
+                        echo '<td></td>';
+                        echo '<td colspan="2" class="t_right bold"><span style="font-weight:normal;">Total Price : </span> ' . number_format($total_cost > 0 ? $total_cost : $prod_summ->MF_TOTAL_PRICE, 2) . '</td>';
+                        echo '</tr>';
+                        echo '<tr id="inner_dets_' . $prod_id . '" class="hide">';
+                        ?>
                         <td colspan="3">
                             <div class="liquid" style="width:300px;">
                                 <span class="previous"></span>
@@ -185,7 +189,7 @@
                             </div>
                         </td>
                         <td colspan="7">
-                            <table class="table table-no-border table-info">
+                            <table class="table table-no-border table-dark">
                                 <thead>
                                     <tr>
                                         <th>Dia pcs<br>Cs Pcs</th>
@@ -296,6 +300,14 @@
             }
         });
 
+        $('.prod_active').on('click', function(e) {
+            e.preventDefault();
+            var reqData = {
+                prod_id: $(this).data('id'),
+                status: $(this).attr('data-status')
+            };
+            ajaxCallCommonReqWithRef('admin/prod_activate', reqData, 'prod_activate', $(this));
+        });
         // Basic Slider
         jQuery('#slider').slider({
             range: "min",
@@ -306,15 +318,8 @@
         // Chosen Select
         jQuery(".chosen-select").chosen({'width': '100%', 'white-space': 'nowrap'});
 
-        // Date Picker
-        jQuery('#datepicker').datepicker();
+        jQuery('.menutoggle').trigger('click');
 
-        hideLeftMenu();
     });
-
-    function hideLeftMenu() {
-        jQuery('body').addClass('leftpanel-collapsed');
-        jQuery('.menutoggle').addClass('menu-collapsed');
-    }
 
 </script>

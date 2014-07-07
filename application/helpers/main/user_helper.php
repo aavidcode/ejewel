@@ -9,6 +9,7 @@ function getSiteCommonData($site_user_name = '') {
     }
 
     $data['site_user_name'] = $site_user_name;
+    $data['site_user_id'] = ses_data('site_user_id');
     $data['site_det'] = $CI->User_model->getUserDetails($site_user_name);
     $data['ses_det'] = $CI->session->all_userdata();
     return $data;
