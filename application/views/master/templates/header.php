@@ -20,7 +20,8 @@
 
         <script src="js/jquery-1.10.2.min.js"></script>
         <script src="js/jquery-migrate-1.2.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <!--<script src="js/bootstrap.min.js"></script>-->
+        <script src="js/bootstrap.js"></script>
         <script src="js/modernizr.min.js"></script>
         <script src="js/jquery.sparkline.min.js"></script>
         <script src="js/toggles.min.js"></script>

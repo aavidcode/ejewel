@@ -23,14 +23,6 @@ class User_model extends CI_Model implements DBConstants {
         return $this->db->insert_id();
     }
 
-    public function un_approval_users() {
-        $query = $this->db->get_where(self::USER_TABLE, array(
-            'IS_VERIFIED' => 1,
-            'IS_ACTIVE' => 0
-        ));
-        return $query->result();
-    }
-
     public function updateUser($data, $user_id) {
         return $this->db->update(self::USER_TABLE, $data, "USER_ID = " . $user_id);
     }
@@ -84,6 +76,47 @@ class User_model extends CI_Model implements DBConstants {
 
     public function search_results($val) {
         $sql = "select USER_NAME, concat(FIRST_NAME, ' ', LAST_NAME) AS NAME from " . self::USER_TABLE . " where FIRST_NAME like '%" . $val . "%' OR LAST_NAME like '%" . $val . "%'";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    //Apeksha Lad Dated : 3nd July 2014::17.00PM
+
+    public function users_list($userRole) {
+        if ($userRole != 0) {
+            $where = "USER_ROLE != 1 AND USER_ROLE = $userRole";
+        } else {
+            $where = "USER_ROLE != 1";
+        }
+        $query = $this->db->get_where(self::USER_TABLE, $where);
+        return $query->result();
+    }
+
+    //Deactivate user
+    public function deactiveUser($data, $user_id) {
+        return $this->db->update(self::USER_TABLE, $data, "USER_ID = " . $user_id);
+    }
+
+    public function totalUserCount($flag = true, $status = '') {
+        $where = (!$flag ? ' AND IS_VERIFIED = 1 AND IS_ACTIVE = ' . $status : '');
+        $sql = "select count(*) as TOTAL_COUNT from " . self::USER_TABLE . " where USER_ROLE != 1" . $where;
+        $query = $this->db->query($sql)->row();
+        return $query->TOTAL_COUNT;
+    }
+
+    public function app_disp_users($userRole, $status) {
+        if ($userRole != 0) {
+            $where = "USER_ROLE != 1 AND IS_VERIFIED = 1 AND IS_ACTIVE = $status AND USER_ROLE = $userRole";
+        } else {
+            $where = "USER_ROLE != 1";
+        }
+        $query = $this->db->get_where(self::USER_TABLE, $where);
+        //echo $this->db->last_query();
+        return $query->result();
+    }
+
+    public function searchUser($where) {
+        $sql = "select * from " . self::USER_TABLE . " " . "where USER_ROLE != 1 ".($where != "" ? ' AND '.$where : '');
         $query = $this->db->query($sql);
         return $query->result();
     }

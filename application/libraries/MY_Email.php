@@ -63,5 +63,22 @@ class MY_Email extends CI_Email {
         $this->message($mailbody);
         return $this->send();
     }
+    
+    //Apeksha Lad Dated : 2nd July 2014::17.00PM
+    
+     public function send_deactivated_email($user) {
+        $user->URL = base_url();
+        $user->PASS_WORD = $this->CI->encrypt->my_decode($user->PASS_WORD);
+        $user->TITLE = $this->CI->config->item('website_title');
+        $dataArr['user'] = $user;
+        
+        $this->from($this->CI->config->item('info_email'));
+        $this->to($user->EMAIL_ID, $user->FIRST_NAME);
+        $this->subject('Deactivated Email :: ' . $user->TITLE);
+
+        $mailbody = $this->CI->load->view('templates/email/deactivate_email', $dataArr, true);
+        $this->message($mailbody);
+        return $this->send();
+    }
 
 }
