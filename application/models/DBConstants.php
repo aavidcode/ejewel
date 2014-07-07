@@ -22,19 +22,25 @@ interface DBConstants {
     const PROD_TYPE = "prod_type";
     const PRICE_TYPE = "price_type";
     //Colored Stone
-    const C_STONE_TYPE = "c_stone_type";
     const C_STONE_CATEGORY = "c_stone_category";
     const C_STONE_COLOR = "c_stone_color";
+    const C_STONE_CUT = "c_stone_cut";
     //Stone
     const STONE_CUT = "stone_cut";
     const STONE_COLOR = "stone_color";
     const STONE_SHAPE = "stone_shape";
     const STONE_CLARITY = "stone_clarity";
+    const STONE_SIZE = "stone_size";
+    const STONE_SEIV_SIZE_FROM = "stone_seiv_size_from";
+    const STONE_SEIV_SIZE_TO = "stone_seiv_size_to";
+    const STONE_FLUORESCENCE = "stone_fluorescence";
+    const STONE_PLACEMENT = "stone_placement";
     //MF Tables
     const MF_PROD_COMPONENT = 'mf_prod_component';
     const MF_PROD_METAL = 'mf_prod_metal';
-    const MF_PROD_STONE = 'mf_prod_stone';
+    const MF_PROD_STONE = 'mf_prod_diamond';
     const MF_PROD_COLORED_STONE = 'mf_prod_colored_stone';
     const MF_PROD_LABOR = 'mf_prod_labor';
+    const MF_PROD_OTHER_CHARGES = 'mf_prod_other_charges';
     
 }
