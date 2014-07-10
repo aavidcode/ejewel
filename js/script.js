@@ -2,6 +2,14 @@ $(function() {
     $('.numbers-only').keypress(function() {
         return numbersonly($(this), $(this).data('decimal'));
     });
+
+    $('.chosen-select').chosen();
+    $('.chosen-select-deselect').chosen({allow_single_deselect: true});
+    jQuery(".chosen-select-dis-search").chosen({
+        'width': '100%',
+        'white-space': 'nowrap',
+        disable_search: true
+    });
 });
 
 function numbersonly(e, decimal) {
@@ -257,8 +265,9 @@ function show_comp_price() {
         } else if (data_type === 'metal') {
             if (is_prim_metal(count)) {
                 prim_metal_weight = gross_wgt;
+            } else {
+                metal_total_weight += gross_wgt;
             }
-            metal_total_weight += gross_wgt;
         }
 
         html += add_comp_price_field(count);
@@ -270,16 +279,17 @@ function show_comp_price() {
     html += add_shipping_charges(count);
     var total_price = ($('#mf_total_price').length ? $('#mf_total_price').val() : '0.00');
     html += '<tr><td colspan="5" class="t_right"><a href="javascript:;" class="btn btn-primary btn-xs" onclick="cal_prod_total_price();">Calculate Total</a></td><td class="t_right"><span id="comp_total_price" class="bold" style="padding-right:12px;">' + total_price + '</span></td></tr>';
-    $("#component_price_grid > table > tbody").append(html);
+    $("#component_price_grid > table > tbody").empty().append(html);
     $('#stone_total_weight').val(stone_total_weight / 5);
     $('#prim_metal_weight').val(prim_metal_weight);
     $('#metal_total_weight').val(metal_total_weight);
+    cal_prod_total_price();
 }
 
 function add_comp_price_field(count) {
     var html = '';
     var comp_price = $('#component_grid').find('input[name="comp_price_' + count + '"]').val();
-    comp_price = (comp_price !== undefined ? comp_price : '');
+    comp_price = (comp_price !== undefined ? comp_price : 0);
     html += '<td><div class="col-sm-12"><input class="form-control t_right ready-only" readonly type="text" name="price_' + count + '" value="' + comp_price + '" /></div></td>';
     return html;
 }
@@ -287,8 +297,8 @@ function add_comp_price_field(count) {
 function add_comp_base_rate_field(data_type, count) {
     var html = '';
     var comp_base_rate = $('#component_grid').find('input[name="comp_base_rate_' + count + '"]').val();
-    comp_base_rate = (comp_base_rate !== undefined ? comp_base_rate : '');
-    html += '<td><div class="col-sm-10"><input class="form-control" class="numbers-only" onBlur="cal_price(\'' + data_type + '\', ' + count + ', this)" type="text" placeholder="Base Cost" name="base_cost_' + count + '" value="' + comp_base_rate + '" /></div></td>';
+    comp_base_rate = (comp_base_rate !== undefined ? comp_base_rate : 0);
+    html += '<td><div class="col-sm-10"><input class="form-control" class="numbers-only" onBlur="cal_price_onchange(\'' + data_type + '\', ' + count + ', this)" type="text" placeholder="Base Cost" name="base_cost_' + count + '" value="' + comp_base_rate + '" /></div></td>';
     return html;
 }
 
@@ -326,13 +336,15 @@ function cal_labour_price(count) {
         sel_opt = parseInt(sel_opt);
         switch (sel_opt) {
             case 1:
+                var prim_metal_weight = $('#prim_metal_weight').val();
                 var metal_total_weight = $('#metal_total_weight').val();
-                price = parseFloat(metal_total_weight) * lab_cost;
+                price = (parseFloat(prim_metal_weight) + parseFloat(metal_total_weight)) * lab_cost;
                 break;
             case 2:
                 var stone_total_weight = $('#stone_total_weight').val();
+                var metal_total_weight = $('#metal_total_weight').val();
                 var prim_metal_weight = $('#prim_metal_weight').val();
-                price = (parseFloat(prim_metal_weight) + parseFloat(stone_total_weight)) * lab_cost;
+                price = (parseFloat(prim_metal_weight) + parseFloat(metal_total_weight) - parseFloat(stone_total_weight)) * lab_cost;
                 break;
             case 3:
                 price = lab_cost;
@@ -357,11 +369,17 @@ function cal_vat_price() {
     var total_price = calculate(count);
     var vat = parseFloat((total_price / 100) * 1.1).toFixed(2);
     $('#component_price_grid').find('input[name="price_' + (count + 1) + '"]').val(vat);
+    return vat;
 }
 
 function cal_prod_total_price() {
     var count = parseInt($('#comp_count').val());
-    var total_price = parseFloat(calculate(count));
+    var total_price = 0;
+    for (var i = 1; i <= count; i++) {
+        var data_type = $('#component_grid').find('input[name="sel_comp_type_' + i + '"]').val();
+        var base_rate = $('#component_price_grid').find('input[name="base_cost_' + i + '"]').val();
+        total_price += parseFloat(cal_price(data_type, i, base_rate));
+    }
 
     var vat = (total_price / 100) * 1.1;
     $('#component_price_grid').find('input[name="price_' + (count + 1) + '"]').val(parseFloat(vat).toFixed(2));
@@ -395,8 +413,12 @@ function is_prim_metal(count) {
     return (arr['IS_PRIM'] === '1');
 }
 
-function cal_price(data_type, count, id) {
-    if ($(id).val() !== '') {
+function cal_price_onchange(data_type, count, id) {
+    cal_price(data_type, count, $(id).val());
+}
+
+function cal_price(data_type, count, val) {
+    if (val !== '') {
         var price = 0;
         if (data_type === 'labor') {
             price = cal_labour_price(count);
@@ -407,14 +429,13 @@ function cal_price(data_type, count, id) {
             } else {
                 gross_weight = get_gross_weight(count);
             }
-            price = ($(id).val() * gross_weight);
+            price = (val * gross_weight);
         }
         $('#component_price_grid').find('input[name="price_' + count + '"]').val(parseFloat(price).toFixed(2));
-        if ($('#comp_count').val() == count) {
-            cal_vat_price();
-        }
+        return price;
     }
 }
+
 
 function data_arr(comp_data) {
     var data_arr = comp_data.split(';');
@@ -473,11 +494,11 @@ function add_component() {
                     <td>" + $('[name="' + data_type + '_type"]').find(":selected").text() + "</td>\n\
                     <td><div id='more_" + rowCount + "'>" + getCompDetails(data_type) + "</div></td>\n\
                     <td class='table-action'>\n\
-                        <a href=''><i class='fa fa-pencil'></i></a>\n\
-                        <a href='' class='delete-row'><i class='fa fa-trash-o'></i></a>\n\
                         <input type='hidden' name='data_" + rowCount + "' value='" + getData(data_type) + "' />\n\
                     </td>\n\
                 </tr>";
+    //<a href=''><i class='fa fa-pencil'></i></a>\n\
+    //                    <a href='' class='delete-row'><i class='fa fa-trash-o'></i></a>\n\
     $("#component_grid > table > tbody").append(html);
     $("#comp_count").val(rowCount);
     showMore('#more_' + rowCount, 25);

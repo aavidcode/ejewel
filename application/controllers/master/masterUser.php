@@ -69,7 +69,7 @@ class MasterUser extends MasterComponent {
         loadMasterView("user/userList", $data);
     }
 
-    public function searchUser($userRole = 0) {
+        public function searchUserDetail($userRole = 0) {
         $data = getMasterCommonData();
         $data['title'] = 'Master Admin';
         $name = $this->input->post('name');
@@ -116,5 +116,14 @@ class MasterUser extends MasterComponent {
         $data['userArr'] = $this->User_model->searchUser($where);
         loadMasterView("user/userList", $data);
     }
-
+    
+    //Apeksha Lad Dated : 8nd July 2014::10.53PM
+    
+    public function edit($userId) {
+        if ($this->input->post()) {
+            editUserPost($userId);
+        }
+        editUserUI($userId);
+    }
+    
 }

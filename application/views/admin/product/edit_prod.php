@@ -1,13 +1,13 @@
 <?php
 $prod_sum_det = $prod_data['prod_sum_det'];
 $prod_id = $prod_sum_det->PROD_ID;
-$prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data['prod_other_charges'][0] : null;
+$prod_other_charges = sizeof($prod_data['prod_other_charges']) > 0 ? $prod_data['prod_other_charges'][0] : null;
+$prod_history = $prod_data['prod_history'];
 ?>
 
 <link rel="stylesheet" href="css/jquery.tagsinput.css" />   
 
-<link rel="stylesheet" href="css/dropzone.css" />
-<script src="js/dropzone.min.js"></script>
+<script src="js/jquery.form.js"></script>
 
 <div class="pageheader">
     <h2><i class="fa fa-pencil"></i> Products <span>Edit Product</span></h2>
@@ -23,10 +23,60 @@ $prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data
 
 <div class="contentpanel">
 
+    <?php if (sizeof($prod_history) > 0) { ?>
+    <div class="row">
+        <div class="col-md-12" id="prod_summary">
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-btns">
+                        <a href="" class="minimize">-</a>
+                    </div>
+                    <h4 class="panel-title">Pending Approvals</h4>
+                    <p>The following details are pending for approval. End user will not see these details.</p>
+                </div>
+                <div class="panel-body" style="display: block;">
+                    <div class="table-responsive">
+                        <table class="table table-success mb30">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Version No.</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($prod_history as $history) {
+                                    echo '<tr>';
+                                    echo '<td><input type="checkbox" name="approve" value="' . $history->PH_ID . '"/></td>';
+                                    echo '<td>' . $history->VERSION_ID . '</td>';
+                                    echo '<td>' . $history->TYPE . '</td>';
+                                    echo '<td>' . $history->SUMMARY . '</td>';
+                                    echo '<td>' . date('d-M-Y', strtotime($history->DATE_CREATED)) . '</td>';
+                                    echo '</tr>';
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer" style="display: block;">
+                    <div class="col-sm-1"><a href="javascript:void(0)" class="btn btn-xs btn-primary">Approve</a></div>
+                    <div class="col-sm-1"><a href="javascript:void(0)" class="btn btn-xs btn-danger">DisApprove</a></div>
+                </div><!-- panel-footer -->
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+
     <div class="row" id="prod_data_det">
 
         <?php echo form_open('', array('id' => 'editProdForm', 'role' => 'form', 'autocomplete' => 'off')); ?>
-
+        <div id="form_errors"></div>
         <div class="col-md-12" id="prod_summary">
 
 
@@ -650,9 +700,10 @@ $prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data
                                         '</td>';
                                         echo '<td>' . $mf_prod_comp->COMP_TYPE_NAME . '</td>';
                                         echo '<td><div id="more_' . $count . '">' . $comp_data['comp_details_' . $p_comp_id] . '</div></td>';
+                                        //<a href=''><i class='fa fa-pencil'></i></a>
+                                        //            <a href='' class='delete-row'><i class='fa fa-trash-o'></i></a>
                                         echo "<td class='table-action'>
-                                                    <a href=''><i class='fa fa-pencil'></i></a>
-                                                    <a href='' class='delete-row'><i class='fa fa-trash-o'></i></a>
+                                                    
                                                     <input type='hidden' name='data_" . $count . "' value='" . $comp_data['comp_data_' . $p_comp_id] . "' />
                                                     <input type='hidden' name='comp_price_" . $count . "' value='" . $comp_data['comp_price_' . $p_comp_id] . "' />
                                                     <input type='hidden' name='comp_base_rate_" . $count . "' value='" . $comp_data['comp_base_rate_' . $p_comp_id] . "' />
@@ -717,6 +768,7 @@ $prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data
                         </div>
                         <h4 class="panel-title">Pricing Details</h4>
                         <p>Component pricing details</p>
+                        <div class="right"><a href="javascript:;" id="ref_comp_table">Refresh  <i class="fa fa-refresh"></i></a></div>
                     </div>
                     <div class="panel-body" style="display: block;">
 
@@ -764,7 +816,7 @@ $prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data
                     <div class="panel-footer" style="display: block;">
                         <ul class="pager wizard">
                             <li class="previous"><a href="javascript:void(0)" data-prev='prod_comp_det'>Previous</a></li>
-                            <li class="next"><button type="submit" class="btn btn-danger ladda-button right" id="add_prod_submit" data-style="expand-left"><span class="ladda-label">Save</span></button></li>
+                            <li class="next"><button type="submit" class="btn btn-danger ladda-button right" id="edit_prod_submit" data-style="expand-left"><span class="ladda-label">Save Changes</span></button></li>
                         </ul>
                     </div><!-- panel-footer -->
                 </div><!-- panel-default -->
@@ -788,14 +840,14 @@ $prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data
                 <a href="" class="minimize">−</a>
             </div>
             <h4 class="panel-title">Images Upload</h4>
-            <p>Upload and edit images of this product. <span data-hideif="imageUploadInProgress">You can also <a class="plain st" data-modal="products/fetch_product_images_modal" data-modal-view="FetchProductImagesModalView" href="#">add images from the web</a>.</span> Drag to reorder images.</p>
+            <p>Upload and edit images of this product.</p>
         </div>
         <div class="panel-body">
             <div class="col-sm-5">
                 <div class="span6 section-summary">
                     <div>
                         <h1>Images</h1>
-                        <p>Upload and edit images of this product. <span data-hideif="imageUploadInProgress">You can also <a class="plain st" data-modal="products/fetch_product_images_modal" data-modal-view="FetchProductImagesModalView" href="#">add images from the web</a>.</span> Drag to reorder images.</p>
+                        <p>Upload and edit images of this product.</p>
                     </div>
 
                     <div class="section-summary" style="margin-top:20px;">
@@ -806,16 +858,19 @@ $prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data
                             $full_path = $path . $prod_sum_det->PROD_ID . '/';
                             $def_img = $prod_sum_det->PROD_DEF_THUMB;
                             foreach ($imgArr as $img) {
-                                $flag = ($def_img == 'thumb_' . $img);
-                                ?>
-                                <div class="col-xs-6 col-md-3" data-id="<?php echo $prod_id; ?>">
-                                    <a href="<?php echo $full_path . $img; ?>" class="example-image-link thumbnail" data-lightbox="example-set">
-                                        <img class="example-image" src="<?php echo $full_path . 'thumb_' . $img; ?>" alt="<?php echo $prod_sum_det->PROD_NAME; ?>" style="width:160px;">
-                                    </a>
-                                    <i class="def_prod_img fa fa-<?php echo ($flag ? 'check-' : '') ?>square-o" data-ref="<?php echo $img; ?>" style="font-size:13px;"></i>
-                                    <div class="right"><a href="#" class="del_prod_img" data-ref="<?php echo $img; ?>"><img src="images/icon_delete13.gif" alt="Delete Product image" title="Delete Product Image" /></a></div>
-                                </div>    
-                            <?php }
+                                if ($img != '') {
+                                    $flag = ($def_img == 'thumb_' . $img);
+                                    ?>
+                                    <div class="col-xs-6 col-md-3" data-id="<?php echo $prod_id; ?>">
+                                        <a href="<?php echo $full_path . $img; ?>" class="example-image-link thumbnail" data-lightbox="example-set">
+                                            <img class="example-image" src="<?php echo $full_path . 'thumb_' . $img; ?>" alt="<?php echo $prod_sum_det->PROD_NAME; ?>" style="width:160px;">
+                                        </a>
+                                        <i class="def_prod_img fa fa-<?php echo ($flag ? 'check-' : '') ?>square-o" data-ref="<?php echo $img; ?>" style="font-size:13px;"></i>
+                                        <div class="right"><a href="#" class="del_prod_img" data-ref="<?php echo $img; ?>"><img src="images/icon_delete13.gif" alt="Delete Product image" title="Delete Product Image" /></a></div>
+                                    </div>    
+                                    <?php
+                                }
+                            }
                             ?>
                         </div> 
                     </div>
@@ -823,7 +878,15 @@ $prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data
                 </div>
             </div>
             <div class="col-sm-7">
-                <form action="admin/upload_prod_images/<?php echo $prod_id; ?>" class="dropzone"></form>
+                <form action="admin/upload_prod_images/<?php echo $prod_id; ?>" id="productForm" method="post" enctype="multipart/form-data">
+                    <input type="file" name="upload[]" multiple="" id="file_upload" accept="image/x-png, image/gif, image/jpeg"/>
+                    <div class="mb20"></div>
+                    <button type="submit" class="btn btn-success" name="submit">Upload</button>
+                </form>
+                <div class="mb20"></div>
+                <div class="progress progress-striped active mt10" style="display: none;">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             </div>
         </div><!-- panel-body -->
         <div class="panel-footer">
@@ -845,11 +908,37 @@ $prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data
 <script src="js/jquery.tagsinput.min.js"></script>
 
 <script>
-                
+
                 jQuery(document).ready(function() {
 
-                    jQuery('#tags').tagsInput({width: 'auto'});
+                    $('#productForm').ajaxForm({
+                        beforeSend: function() {
+                            $(".progress").show();
+                        },
+                        uploadProgress: function(event, position, total, percentComplete) {
+                            $(".progress-bar").width(percentComplete + '%'); //dynamicaly change the progress bar width
+                            $(".sr-only").html(percentComplete + '%'); // show the percentage number
+                        },
+                        success: function() {
+                            $(".progress").hide(); //hide progress bar on success of upload
+                        },
+                        complete: function(response) {
+                            $('#file_upload').val('');
+                            var imgArr = response.responseText.split(';');
+                            var str = '';
+                            for (var i in imgArr) {
+                                var subImgArr = imgArr[i].split('#');
+                                str += '<div class="col-xs-6 col-md-3">\n\
+                                    <a href="' + subImgArr[0] + '" class="example-image-link thumbnail" data-lightbox="example-set">\n\
+                                        <img class="example-image" src="' + subImgArr[1] + '" style="width:160px;">\n\
+                                    </a>\n\
+                                </div>';
+                            }
+                            $('#image_view').append(str);
+                        }
+                    });
 
+                    jQuery('#tags').tagsInput({width: 'auto'});
                     $('.previous a').on('click', function() {
                         $('html,body').animate({scrollTop: $('#' + $(this).data('prev')).offset().top}, 800);
                     });
@@ -880,10 +969,10 @@ $prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data
                         }
                     });
 
-//                    $('#edit_prod_submit').on('click', function(e) {
-//                        e.preventDefault();
-//                        ajaxSubmitForm('#editProdForm', 'edit_prod', false);
-//                    });
+                    $('#edit_prod_submit').on('click', function(e) {
+                        e.preventDefault();
+                        ajaxSubmitForm('#editProdForm', 'edit_prod', false);
+                    });
 
                     $('[name="comp_type"]').on('change', function() {
                         comp_type_change(this);
@@ -912,6 +1001,10 @@ $prod_other_charges = sizeof ($prod_data['prod_other_charges']) > 0 ? $prod_data
                         ajaxCallCommonReqWithRef('admin/del_prod_img', reqData, 'prod_img_del', $(this));
                     });
 
+                    $('#ref_comp_table').on('click', function(e) {
+                        e.preventDefault();
+                        show_price();
+                    });
                     set_form_data();
                     show_price();
                 });

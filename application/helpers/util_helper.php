@@ -86,12 +86,14 @@ function upload_file($file, $path, $target_name = '') {
 
 function create_thumb($path_to_image_directory, $filename, $path_to_thumbs_directory, $thumb_filename, $final_width_of_image) {
 
-    if (preg_match('/[.](jpg)$/', $filename)) {
+    $temp = explode(".", $filename);
+    $extension = end($temp);
+    if ($extension == 'jpg' || $extension == 'jpeg') {
         $im = imagecreatefromjpeg($path_to_image_directory . $filename);
-    } else if (preg_match('/[.](gif)$/', $filename)) {
-        $im = imagecreatefromgif($path_to_image_directory . $filename);
-    } else if (preg_match('/[.](png)$/', $filename)) {
+    } else if ($extension == 'png') {
         $im = imagecreatefrompng($path_to_image_directory . $filename);
+    } else if ($extension == 'gif') {
+        $im = imagecreatefromgif($path_to_image_directory . $filename);
     }
 
     $ox = imagesx($im);
@@ -110,7 +112,13 @@ function create_thumb($path_to_image_directory, $filename, $path_to_thumbs_direc
         }
     }
 
-    imagejpeg($nm, $path_to_thumbs_directory . $thumb_filename);
+    if ($extension == 'jpg' || $extension == 'jpeg') {
+        imagejpeg($nm, $path_to_thumbs_directory . $thumb_filename);
+    } else if ($extension == 'png') {
+        imagepng($nm, $path_to_thumbs_directory . $thumb_filename);
+    } else if ($extension == 'gif') {
+        imagegif($nm, $path_to_thumbs_directory . $thumb_filename);
+    }
     sleep(2);
     return $thumb_filename;
 }
@@ -207,4 +215,35 @@ function unsetArrByKeys($arr, $keys) {
         }
     }
     return $arr;
+}
+
+function getRandomDigit($digits) {
+    static $startseed = 0;
+    if (!$startseed) {
+        $startseed = (double) microtime() * getrandmax();
+        srand($startseed);
+    }
+    $range = 8;
+    $start = 1;
+    $i = 1;
+    while ($i < $digits) {
+        $range = $range . 9;
+        $start = $start . 0;
+        $i++;
+    }
+    return (rand() % $range + $start);
+}
+
+function getRandomAlphaNumericID($length) {
+    $alphabets = range('A', 'Z');
+    $numbers = range('0', '9');
+    $final_array = array_merge($alphabets, $numbers);
+
+    $random_text = '';
+
+    while ($length--) {
+        $key = array_rand($final_array);
+        $random_text .= $final_array[$key];
+    }
+    return $random_text;
 }

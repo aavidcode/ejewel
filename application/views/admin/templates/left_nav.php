@@ -31,7 +31,6 @@
                     <h5 class="sidebartitle">Navigation</h5>
                     <ul class="nav nav-pills nav-stacked nav-bracket">
                         <li><a href="admin/dashboard/"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-                        <li><a href="email.html"><i class="fa fa-envelope-o"></i> <span>Email</span></a></li>
                         <li class="nav-parent nav-active active"><a href=""><i class="fa fa-edit"></i> <span>Product</span></a>
                             <ul class="children" style="display: block;">
                                 <li><a href="admin/product/viewAll"><i class="fa fa-caret-right"></i> View All</a></li>

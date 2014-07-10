@@ -9,7 +9,7 @@
                     <li class="active"><a href="master/dashboard/"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
                     <li class="nav-parent"><a href=""><i class="fa fa-edit"></i> <span>Users</span></a>
                         <ul class="children" style="display: block;">
-                            <li><a href="master/approval/0/0"><i class="fa fa-caret-right"></i>Active/Deactive Users</a>
+                            <li><a href="master/approval/0/0"><i class="fa fa-caret-right"></i>Activate/Deactivate Users</a>
                                 <!--<ul class="children" style="display: block;">
                                     <li><a href="master/approval/0/2"><i class="fa fa-caret-right"></i>Manufacturers</a></li>
                                     <li><a href="master/approval/0/3"><i class="fa fa-caret-right"></i>Jewellers</a></li>

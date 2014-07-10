@@ -65,22 +65,8 @@
                                                                 <tr>
                                                                     <td style="table-layout:fixed">
                                                                         <div style="font-family:Arial;line-height:20px;font-size:13px;width:560px;overflow:hidden;word-wrap:break-word;word-break:normal">
-                                                                            Your email has been activated.
+                                                                            Your account has been deactivated by Administrator. Please Contact on the below details.
                                                                         </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <br>
-                                                                        <b>Please find below your login details:</b><br>
-                                                                        UserName: <?php echo $user->EMAIL_ID; ?><br>
-                                                                        Password: <?php echo $user->PASS_WORD; ?>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        Click here to Login:<br><br>
-                                                                        <a href='<?php echo $user->URL.'user/home/'.$user->USER_NAME; ?>'>Login</a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>

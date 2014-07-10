@@ -65,21 +65,21 @@
                                                                 <tr>
                                                                     <td style="table-layout:fixed">
                                                                         <div style="font-family:Arial;line-height:20px;font-size:13px;width:560px;overflow:hidden;word-wrap:break-word;word-break:normal">
-                                                                            Thank you for registering for the Online <?php echo $user->TITLE; ?> platform
+                                                                            Thank you for registering on the <?php echo $user->TITLE; ?> platform:
                                                                         </div>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
                                                                         <br>
-                                                                        <b>Please find below your login details:</b><br>
+                                                                        <b>Please find your login details below:</b><br>
                                                                         UserName: <?php echo $user->EMAIL_ID; ?><br>
                                                                         Password: <?php echo $user->PASS_WORD; ?>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        Click here to active E-mail:<br><br>
+                                                                        Click here to verify your email address:<br><br>
                                                                         <a href='<?php echo $user->ACT_URL; ?>'><?php echo $user->ACT_URL; ?></a>
                                                                     </td>
                                                                 </tr>
@@ -108,7 +108,7 @@
                                                                     <td>
                                                                         <div style="font-family:Arial;width:530px;overflow:hidden;color:#333333;font-size:13px">
                                                                             Sincerely,<br>
-                                                                            <?php echo $user->TITLE; ?> Team
+                                                                            The <?php echo $user->TITLE; ?> Team
                                                                         </div>
                                                                     </td>
                                                                 </tr>

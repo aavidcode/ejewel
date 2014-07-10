@@ -105,15 +105,15 @@ class User_model extends CI_Model implements DBConstants {
     }
 
     public function app_disp_users($userRole, $status) {
-        if ($userRole != 0) {
-            $where = "USER_ROLE != 1 AND IS_VERIFIED = 1 AND IS_ACTIVE = $status AND USER_ROLE = $userRole";
-        } else {
-            $where = "USER_ROLE != 1";
-        }
-        $query = $this->db->get_where(self::USER_TABLE, $where);
-        //echo $this->db->last_query();
-        return $query->result();
-    }
+       $userRoleStr = '';
+       if ($userRole != 0) {
+           $userRoleStr = ' AND USER_ROLE = '.$userRole;
+       }
+       $where = "USER_ROLE != 1 AND IS_VERIFIED = 1 AND IS_ACTIVE = $status".$userRoleStr;
+       $query = $this->db->get_where(self::USER_TABLE, $where);
+       //echo $this->db->last_query();
+       return $query->result();
+   }
 
     public function searchUser($where) {
         $sql = "select * from " . self::USER_TABLE . " " . "where USER_ROLE != 1 ".($where != "" ? ' AND '.$where : '');

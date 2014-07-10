@@ -12,16 +12,11 @@ class MY_Email extends CI_Email {
         $this->CI = & get_instance();
     }
 
-    public function send_reg_email($user) {
-        $this->send_user_reg_mail($user);
-        $this->send_admin_reg_mail($user);
-    }
-
-    private function send_user_reg_mail($user) {
+    public function send_user_reg_mail($user) {
         $user_name = $user->USER_NAME;
         $act_key = strrev($user_name) . '_' . $user->USER_ID . '_' . md5($user_name);
 
-        $user->ACT_URL = base_url() . 'user/activate/' . $act_key;
+        $user->ACT_URL = base_url() . 'main/activate/' . $act_key;
         $user->URL = base_url();
         $user->PASS_WORD = $this->CI->encrypt->my_decode($user->PASS_WORD);
         $user->TITLE = $this->CI->config->item('website_title');
@@ -35,7 +30,7 @@ class MY_Email extends CI_Email {
         return $this->send();
     }
 
-    private function send_admin_reg_mail($user) {
+    public function send_admin_reg_mail($user) {
         $user->URL = base_url();
         $user->TITLE = $this->CI->config->item('website_title');
         $dataArr['user'] = $user;

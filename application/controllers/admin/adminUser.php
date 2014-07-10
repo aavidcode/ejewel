@@ -1,6 +1,6 @@
 <?php
 
-include_once( APPPATH . 'controllers/admin/AdminProduct' . EXT );
+include_once( APPPATH . 'controllers/admin/adminProduct' . EXT );
 
 class AdminUser extends AdminProduct {
 

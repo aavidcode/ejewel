@@ -19,11 +19,11 @@ class MainUser extends MainProduct {
         redirect('login/'.$user_name.'/'.$user_id);
     }
     
-    public function login($user_id) {
+    public function login($user_name, $user_id) {
         if ($this->input->post()) {
             validateLogin('admin/dashboard');
         } else {
-            $data = getSiteCommonData();
+            $data = getSiteCommonData($user_name);
             $data['title'] = "Login Page";
             $data['top_menu'] = false;
             $data['hide_login'] = true;
@@ -38,7 +38,7 @@ class MainUser extends MainProduct {
             $user_id = create_user();
             $user = $this->User_model->getUserById($user_id);
             if ($user) {
-                $this->email->send_reg_email($user);
+                $this->email->send_user_reg_mail($user);
                 $res['error'] = false;
                 $res['redirect'] = 'main/thankyou';
             } else {

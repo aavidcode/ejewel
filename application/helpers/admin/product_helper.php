@@ -55,7 +55,7 @@ function createProduct() {
     );
     $prodArr = getProdFormArray();
     $prod_id = $CI->Product_model->add_prod(array_merge($arr, $prodArr));
-    addProdHistory(\models\DBConstants::MF_PROD_SUMMARY, $prod_id, $prodArr);
+    addProdHistory(\models\DBConstants::MF_PROD_SUMMARY, $prod_id, $prodArr, 0, true);
     defineComponents($prod_id);
     return $prod_id;
 }
@@ -183,7 +183,8 @@ function updateProdUI($prod_id) {
         'prod_sum_det' => $prod_sum_det,
         'prod_comp_data' => get_prod_comp_data($mf_prod_component, $prod_id),
         'prod_component' => $mf_prod_component,
-        'prod_other_charges' => $CI->Product_model->mf_prod_other_charges($prod_id)
+        'prod_other_charges' => $CI->Product_model->mf_prod_other_charges($prod_id),
+        'prod_history' => $CI->Product_model->getUnApproveProdHistory($prod_id)
     );
     $data['title'] = $prod_sum_det->PROD_NAME;
     loadAdminView('product/edit_prod', $data);
@@ -302,16 +303,14 @@ function otherDiamondDetails($comp_data) {
 function updateProdPost($prod_id) {
     $CI = & get_instance();
     $arr = getProdFormArray();
+    $ver_id = getRandomDigit(6);
     $diffArr = getProdDiffData(\models\DBConstants::MF_PROD_SUMMARY, $prod_id, $arr);
-    $flag = $CI->Product_model->update_prod($diffArr, $prod_id);
-    addProdHistory(\models\DBConstants::MF_PROD_SUMMARY, $prod_id, $diffArr);
-    if ($flag) {
-        $CI->Product_model->clear_comp_dets($prod_id);
-        defineComponents($prod_id);
-        $res['error'] = false;
-        $res['message'] = 'Product details saved.';
-        json_output($res);
-    }
+    addProdHistory(\models\DBConstants::MF_PROD_SUMMARY, $prod_id, $diffArr, $ver_id);
+    $CI->Product_model->clear_comp_dets($prod_id);
+    defineComponents($prod_id);
+    $res['error'] = false;
+    $res['message'] = 'Product details saved.';
+    json_output($res);
 }
 
 function getProdFormArray() {
@@ -327,15 +326,15 @@ function getProdFormArray() {
         'PROD_TYPE_ID' => $CI->input->post('prod_type'),
         'PRICE_TYPE_ID' => $CI->input->post('price_type'),
         'CERTIFICATE' => $CI->input->post('prod_cert'),
-        'HALLMARK' => $CI->input->post('prod_hallmark'),
+        'HALLMARK' => ($CI->input->post('prod_hallmark') == 'on' ? 1 : 0),
         'STOCK' => $CI->input->post('prod_stock'),
         'PROD_SIZE' => $CI->input->post('prod_size'),
-        'DAYS_30_RET' => ($CI->input->post('days_ret_30') == 'on'),
-        'REF_100_PER' => ($CI->input->post('ret_100') == 'on'),
-        'FREE_SHIP' => ($CI->input->post('free_ship') == 'on'),
-        'LIFE_TIME_RET' => ($CI->input->post('life_time_ret') == 'on'),
-        'FREE_RET' => ($CI->input->post('free_ret') == 'on'),
-        'PAYMENT' => ($CI->input->post('payment') == 'on')
+        'DAYS_30_RET' => ($CI->input->post('days_ret_30') == 'on' ? 1 : 0),
+        'REF_100_PER' => ($CI->input->post('ret_100') == 'on' ? 1 : 0),
+        'FREE_SHIP' => ($CI->input->post('free_ship') == 'on' ? 1 : 0),
+        'LIFE_TIME_RET' => ($CI->input->post('life_time_ret') == 'on' ? 1 : 0),
+        'FREE_RET' => ($CI->input->post('free_ret') == 'on' ? 1 : 0),
+        'PAYMENT' => ($CI->input->post('payment') == 'on' ? 1 : 0)
     );
 }
 
@@ -352,7 +351,8 @@ function viewAllProducts() {
 
 function buildProdDetails() {
     $CI = & get_instance();
-    $prod_res_arr = $CI->Product_model->get_products(ses_data('user_id'));
+    $where = 'a.MF_USER_ID=' . ses_data('user_id');
+    $prod_res_arr = $CI->Product_model->get_products($where);
     $main_arr = array();
     foreach ($prod_res_arr as $prod_res) {
         $prod_id = $prod_res->PROD_ID;
@@ -371,20 +371,23 @@ function buildProdDetails() {
 function getProdSummDiff($type, $newArr, $prod_id) {
     $CI = & get_instance();
     $arr = $CI->Product_model->product_details($prod_id);
-    $diffArr = array_diff_assoc(stdToArray($arr), $newArr);
+    $diffArr = array_diff_assoc($newArr, stdToArray($arr));
     return unsetArrByKeys($diffArr, getSkipProdKeys($type));
 }
 
-function addProdHistory($type, $prod_id, $arr) {
+function addProdHistory($table, $prod_id, $arr, $ver_id, $status = 0) {
     $CI = & get_instance();
     $str = http_build_query($arr, '', ',');
-    
-    $CI->Product_model->add_prod_history(array(
-        'PROD_ID' => $prod_id,
-        'USER_ID' => ses_data('user_id'),
-        'TYPE' => $type,
-        'DATA' => $str,
-        'SUMMARY' => ''
+
+    return $CI->Product_model->add_prod_history(array(
+                'PROD_ID' => $prod_id,
+                'USER_ID' => ses_data('user_id'),
+                'TABLE' => $table,
+                'TYPE' => getSourceType($table),
+                'DATA' => $str,
+                'SUMMARY' => getProdHistorySummary($arr, $table),
+                'VERSION_ID' => $ver_id,
+                'PH_STATUS' => $status
     ));
 }
 
@@ -395,13 +398,20 @@ function getProdDiffData($type, $prod_id, $newArr) {
     return $diffArr;
 }
 
-function getProdHistorySummary() {
-    
+function getProdHistorySummary($diffArr, $type) {
+    $str = '';
+    if ($type == \models\DBConstants::MF_PROD_SUMMARY) {
+        $prodColDesp = getProdColDesp();
+        foreach ($diffArr as $key => $val) {
+            $str .= $prodColDesp[$key] . ' = ' . $val . ';';
+        }
+    }
+    return substr($str, 0, strlen($str) - 1);
 }
 
 function getSkipProdKeys($type) {
     if ($type == \models\DBConstants::MF_PROD_SUMMARY) {
-        return array('PROD_ID', 'MF_USER_ID', 'PROD_DEF_THUMB', 'PROD_THUMBS', 'PROD_IMAGES', 'DATE_CREATED', 'PROD_STATUS');
+        return array('PROD_ID', 'MF_USER_ID', 'PROD_DEF_THUMB', 'PROD_THUMBS', 'MF_TOTAL_PRICE', 'PROD_IMAGES', 'DATE_CREATED', 'PROD_STATUS');
     }
 }
 
@@ -429,5 +439,22 @@ function getProdColDesp() {
         'FREE_RET' => 'Free returns',
         'PAYMENT' => 'Payment',
         'PROD_STATUS' => 'Status',
+    );
+}
+
+function getSourceType($table) {
+    $arr = sourecTypeTableArr();
+    return $arr[$table];
+}
+
+function sourecTypeTableArr() {
+    return array(
+        \models\DBConstants::MF_PROD_SUMMARY => 'Product Summary',
+        \models\DBConstants::MF_PROD_COMPONENT => 'Component Details',
+        \models\DBConstants::MF_PROD_METAL => 'Metal Details',
+        \models\DBConstants::MF_PROD_STONE => 'Diamond Details',
+        \models\DBConstants::MF_PROD_COLORED_STONE => 'Colored Stone Details',
+        \models\DBConstants::MF_PROD_LABOR => 'Labor Details',
+        \models\DBConstants::MF_PROD_OTHER_CHARGES => 'Other Price Details',
     );
 }

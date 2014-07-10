@@ -39,6 +39,7 @@ class Product_model extends Component_model {
             $this->db->delete('mf_prod_' . $arr->COMP_TABLE, array('PROD_ID' => $prod_id));
         }
         $this->db->delete(self::MF_PROD_COMPONENT, array('PROD_ID' => $prod_id));
+        $this->db->delete(self::MF_PROD_OTHER_CHARGES, array('PROD_ID' => $prod_id));
     }
 
     public function get_products($where) {
@@ -53,6 +54,11 @@ class Product_model extends Component_model {
     public function product_details($prod_id) {
         $query = $this->db->get_where(self::MF_PROD_SUMMARY, array('PROD_ID' => $prod_id));
         return $query->row();
+    }
+    
+    public function getUserApprovedProds($user_id) {
+        $query = $this->db->get_where(self::MF_PROD_SUMMARY, array('MF_USER_ID' => $user_id, 'PROD_STATUS' => 1));
+        return $query->result();
     }
 
     public function search_results($val) {
@@ -98,11 +104,16 @@ class Product_model extends Component_model {
     }
 
     public function get_comp_data($prod_id, $p_comp_id, $type) {
-        $query = $this->db->get_where('MF_PROD_' . $type, array('PROD_ID' => $prod_id, 'P_COMP_ID' => $p_comp_id));
+        $query = $this->db->get_where('mf_prod_' . $type, array('PROD_ID' => $prod_id, 'P_COMP_ID' => $p_comp_id));
         return $query->row();
     }
 
     public function add_prod_history($data) {
         return $this->db->insert(self::PROD_HISTORY, $data);
+    }
+    
+    public function getUnApproveProdHistory($prod_id) {
+        $query = $this->db->get_where(self::PROD_HISTORY, array('PROD_ID' => $prod_id, 'PH_STATUS' => 0));
+        return $query->result();
     }
 }

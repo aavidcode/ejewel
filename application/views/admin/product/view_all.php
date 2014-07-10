@@ -62,6 +62,7 @@
                         <tr>
                             <th></th>
                             <th></th>
+                            <th>Product ID</th>
                             <th>Product Name<br>Product Type<br>Brand<br>Collection</th>
                             <th>
                                 <?php
@@ -102,6 +103,7 @@
                             echo '<tr>';
                             echo '<td><a href="javascript:;" class="accordion" data-id="' . $prod_id . '"><i class="fa fa-plus-square-o" style="font-size:16px;"></i></a></td>';
                             echo '<td><img src="' . $img_path . $prod_summ->PROD_DEF_THUMB . '" style="width:60px;" /></td>';
+                            echo '<td>' . $prod_summ->PROD_ID . '</td>';
                             echo '<td>' . $prod_summ->PROD_NAME . '<br>' . $prod_summ->PROD_TYPE_NAME . '<br>' . $prod_summ->CAT_NAME . '</td>';
                             echo '<td>';
                             $str = '';
@@ -122,7 +124,7 @@
                             $cs_wt = ($colored_stone_det ? $colored_stone_det[0]->GROSS_WEIGHT : 0);
                             $total_stone_weight = ($dia_wt + $cs_wt);
                             echo '<td>' . $dia_wt . '<br>' . $cs_wt . '</td>';
-                            echo '<td>' . $prod_summ->CERTIFICATE . '<br>' . $prod_summ->HALLMARK . '<br>' . $prod_summ->STOCK . '<br>' . $prod_summ->PROD_SIZE . '</td>';
+                            echo '<td>' . $prod_summ->CERTIFICATE . '<br>' . ($prod_summ->HALLMARK ? 'Yes' : 'No') . '<br>' . $prod_summ->STOCK . '<br>' . $prod_summ->PROD_SIZE . '</td>';
                             echo '<td>' .
                             ($prod_summ->DAYS_30_RET ? 'Yes' : 'No') . '<br>' .
                             ($prod_summ->REF_100_PER ? 'Yes' : 'No') . '<br>' .
@@ -155,23 +157,23 @@
                             echo '</tr>';
                             echo '<tr class="table_price_footer">';
                             ?>
-                        <td colspan="3" class="people-item">
+                        <td colspan="4" class="people-item">
                             <ul class="social-list m_0">
                                 <li><a href="admin/product/update/<?php echo $prod_id; ?>" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Email"><i class="fa fa-edit"></i></a></li>
                                 <li><a href="javascript:;" data-id="<?php echo $prod_id; ?>" data-status="<?php echo ($prod_summ->PROD_STATUS ? '1' : '0'); ?>" class="tooltips prod_active" data-toggle="tooltip" data-placement="top" title="" data-original-title="Email"><i class="fa fa-<?php echo ($prod_summ->PROD_STATUS ? 'times' : 'check'); ?>"></i></a></li>
                             </ul>
                         </td>
                         <?php
-                        echo '<td>' . $total_metal_weight . '</td>';
-                        echo '<td>' . $total_stone_weight . '</td>';
+                        echo '<td>' . number_format($total_metal_weight, 2) . '</td>';
+                        echo '<td>' . number_format($total_stone_weight, 2) . '</td>';
                         echo '<td></td>';
                         echo '<td></td>';
                         echo '<td></td>';
-                        echo '<td colspan="2" class="t_right bold"><span style="font-weight:normal;">Total Price : </span> ' . number_format($total_cost > 0 ? $total_cost : $prod_summ->MF_TOTAL_PRICE, 2) . '</td>';
+                        echo '<td colspan="2" class="t_right bold"><span style="font-weight:normal;">Total Price : </span> ' . number_format($prod_summ->MF_TOTAL_PRICE, 2) . '</td>';
                         echo '</tr>';
                         echo '<tr id="inner_dets_' . $prod_id . '" class="hide">';
                         ?>
-                        <td colspan="3">
+                        <td colspan="4">
                             <div class="liquid" style="width:300px;">
                                 <span class="previous"></span>
                                 <div class="wrapper">
@@ -222,7 +224,7 @@
                                             foreach ($component_type as $comp_type) {
                                                 foreach ($metal_det as $metal) {
                                                     if ($metal->COMP_TYPE_ID == $comp_type->COMP_TYPE_ID) {
-                                                        $str .= $metal->BASE_RATE;
+                                                        $str .= number_format($metal->BASE_RATE, 2);
                                                     }
                                                 }
                                                 $str .= '<br>';
@@ -236,7 +238,8 @@
                                             foreach ($component_type as $comp_type) {
                                                 foreach ($metal_det as $metal) {
                                                     if ($metal->COMP_TYPE_ID == $comp_type->COMP_TYPE_ID) {
-                                                        $str .= ($metal->MF_PRICE / $metal->GROSS_WEIGHT);
+                                                        $prc = ($metal->MF_PRICE / $metal->GROSS_WEIGHT);
+                                                        $str .= ($prc != '' ? number_format($prc, 2) : '');
                                                     }
                                                 }
                                                 $str .= '<br>';
@@ -246,14 +249,14 @@
                                         </td>
                                         <td>
                                             <?php echo ($is_stone ? $stone_det[0]->BASE_RATE : '') . '<br>'; ?>
-                                            <?php echo ($is_stone ? ($dia_cost / $dia_wt) : ''); ?>
+                                            <?php echo ($is_stone ? number_format(($dia_cost / $dia_wt), 2) : ''); ?>
                                         </td>
                                         <td>
                                             <?php echo ($is_cs ? $colored_stone_det[0]->BASE_RATE : '') . '<br>'; ?>
-                                            <?php echo ($is_cs ? ($cs_cost / $cs_wt) : ''); ?>
+                                            <?php echo ($is_cs ? number_format(($cs_cost / $cs_wt), 2) : ''); ?>
                                         </td>
                                         <td>
-                                            <?php echo $labour_cost; ?>
+                                            <?php echo number_format($labour_cost, 2); ?>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -263,7 +266,7 @@
 
                         <?php
                         echo '</tr>';
-                        echo '<tr><td colspan="10" style="background:#e4e7ea;"></td></tr>';
+                        echo '<tr><td colspan="11" style="background:#e4e7ea;"></td></tr>';
                     }
                     ?>
                     </tbody>

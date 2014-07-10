@@ -10,7 +10,7 @@ $logo = (isset($site_det) && $site_det->LOGO ? $site_det->LOGO : '');
         <div class="col-md-8 column">
             <div class="account">
                 <?php if (!isset($hide_login)) { ?>
-                <a href="main/login/<?php echo $site_user_id; ?>" class="btn-primary topbasketbutton"><span class="glyphicon glyphicon-pencil"></span> Login</a>
+                    <a href="main/login/<?php echo $site_user_name . '/' . $site_user_id; ?>" class="btn-primary topbasketbutton"><span class="glyphicon glyphicon-pencil"></span> Login</a>
                 <?php } ?>
             </div>
         </div>

@@ -360,6 +360,6 @@ $config['proxy_ips'] = '';
 
 $config['info_email'] = 'info@shrinathjibombaywala.in';
 $config['admin_email'] = 'laxman@aavidcode.com';
-$config['website_title'] = 'Patnet';
+$config['website_title'] = 'Jwella';
 /* End of file config.php */
 /* Location: ./application/config/config.php */

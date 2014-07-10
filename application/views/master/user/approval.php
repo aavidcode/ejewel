@@ -14,13 +14,13 @@
     <div class="row">
         <?php echo form_open('', array('role' => 'form', 'autocomplete' => 'off')); ?>
         <div class="panel panel-default">
-            <div class="panel-heading"><?php echo ($status ? "Disappove" : "Approval Pending"); ?> <?php if ($userRole == 2) {
+            <div class="panel-heading">List of <?php echo ($status ? "Activate" : "Deactivate"); ?> <?php if ($userRole == 2) {
             echo "Manufacturers";
         } elseif ($userRole == 3) {
             echo"Jewellers";
         } else {
             echo "Users";
-        } ?> List
+        } ?>
             </div>
             <div style="padding-right: 10px; padding-top:10px;">
                 <div class="col-sm-2">
@@ -30,7 +30,7 @@
                         <option value="3" <?php if ($userRole == 3) echo 'selected'; ?>>Jewellers Users</option>
                     </select>
                 </div>
-                <div class="t_right"><a class="btn btn-info" href="master/approval/<?php echo $status ? 0 : 1; ?>/<?php echo $userRole; ?>">Click To <?php echo (!$status ? "Disappove" : "Approve"); ?></a></div>
+                <div class="t_right"><a class="btn btn-info" href="master/approval/<?php echo $userRole; ?>/<?php echo $status ? 0 : 1; ?>">List of <?php echo (!$status ? "Activated" : " Deactivated"); ?> Users</a></div>
             </div>
 <?php
 if (sizeof($userArr) == 0) {

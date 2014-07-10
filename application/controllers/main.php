@@ -13,16 +13,21 @@ class main extends MainUser {
         $this->load->view('index', $data);
     }
 
-    public function home($site_user_name) {
+    public function home($site_user_name='') {
         $site_user_id = $this->User_model->getUserID($site_user_name);
         if ($site_user_id) {
             ses_data('site_user_id', $site_user_id);
             $data = getSiteCommonData($site_user_name);
+            $data['products'] = $this->Product_model->getUserApprovedProds($site_user_id);
             $data['title'] = "Home Page";
             loadMainView('user/home', $data);
         } else {
             $data['title'] = "Page Not Found";
             $data['site_user_name'] = '';
+            $data['hide_login'] = true;
+            $data['hide_menu'] = true;
+            $data['top_menu'] = false;
+            $data['footer_menu'] = false;
             loadMainView('user/page_error', $data);
         }
     }
@@ -42,6 +47,7 @@ class main extends MainUser {
                 if ($userArr->IS_VERIFIED) {
                     $message = 'Your email is already activated.';
                 } else {
+                    $this->email->send_admin_reg_mail($userArr);
                     $this->User_model->updateUser(array(
                         'IS_VERIFIED' => 1
                             ), $user_id);
@@ -59,18 +65,23 @@ class main extends MainUser {
         $data['success'] = $success;
         $data['site_user_name'] = '';
         $data['hide_menu'] = true;
-        loadMainView('activate', $data);
+        $data['top_menu'] = false;
+        $data['hide_login'] = true;
+        $data['footer_menu'] = false;
+        loadMainView('user/activate', $data);
     }
 
     public function thankyou() {
         $data['web_title'] = $this->config->item('website_title');
         $data['title'] = 'Thank you';
+        $data['hide_login'] = true;
         $data['top_menu'] = false;
         $data['footer_menu'] = false;
         loadMainView('user/thankyou', $data);
     }
 
     public function demo() {
-        $this->load->view('demo');
+        echo $this->encrypt->my_encode('admin');
     }
+
 }

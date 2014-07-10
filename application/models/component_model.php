@@ -10,6 +10,11 @@ class Component_model extends CI_Model implements DBConstants {
         return $this->db->insert($table, $data);
     }
 
+    public function update_record($table, $data, $where) {
+        return $this->db->update($table, $data, $where);
+        //echo $this->db->last_query();
+    }
+
     public function components() {
         $this->db->cache_on();
         $query = $this->db->get(self::COMPONENT);
@@ -21,7 +26,7 @@ class Component_model extends CI_Model implements DBConstants {
         $query = $this->db->get(self::COMPONENT_TYPE);
         return $query->result();
     }
-    
+
     public function comp_types($comp_id) {
         $query = $this->db->get_where(self::COMPONENT_TYPE, array('COMP_ID' => $comp_id));
         return $query->result();
@@ -68,31 +73,31 @@ class Component_model extends CI_Model implements DBConstants {
         $query = $this->db->get(self::STONE_SHAPE);
         return $query->result();
     }
-    
+
     public function stone_size() {
         $this->db->cache_on();
         $query = $this->db->get(self::STONE_SIZE);
         return $query->result();
     }
-    
+
     public function stone_seiv_size_from() {
         $this->db->cache_on();
         $query = $this->db->get(self::STONE_SEIV_SIZE_FROM);
         return $query->result();
     }
-    
+
     public function stone_seiv_size_to() {
         $this->db->cache_on();
         $query = $this->db->get(self::STONE_SEIV_SIZE_TO);
         return $query->result();
     }
-    
+
     public function stone_fluorescence() {
         $this->db->cache_on();
         $query = $this->db->get(self::STONE_FLUORESCENCE);
         return $query->result();
     }
-    
+
     public function stone_placement() {
         $this->db->cache_on();
         $query = $this->db->get(self::STONE_PLACEMENT);
@@ -110,10 +115,30 @@ class Component_model extends CI_Model implements DBConstants {
         $query = $this->db->get(self::C_STONE_CATEGORY);
         return $query->result();
     }
-    
+
     public function c_stone_cut() {
         $this->db->cache_on();
         $query = $this->db->get(self::C_STONE_CUT);
+        return $query->result();
+    }
+
+    public function insert_comp_record($table, $data) {
+        return $this->db->insert($table, $data);
+    }
+
+    public function insert_cstone_comp_record($table, $data) {
+        return $this->db->insert($table, $data);
+    }
+
+    public function stone_type() {
+        $sql = "select COMP_TYPE_ID, COMP_TYPE_NAME from " . self::COMPONENT_TYPE . " where COMP_ID = 2";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    public function cstone_type() {
+        $sql = "select COMP_TYPE_ID, COMP_TYPE_NAME from " . self::COMPONENT_TYPE . " where COMP_ID = 3";
+        $query = $this->db->query($sql);
         return $query->result();
     }
 

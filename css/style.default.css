@@ -4593,6 +4593,10 @@ p.header {
     margin:0 !important;
 }
 
+.p_0 {
+    padding:0 !important;
+}
+
 .ready-only {
     border: none;
     background: none;

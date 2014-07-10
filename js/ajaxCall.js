@@ -29,7 +29,12 @@ function ajaxCallUpdateCombo(type, requestTo, source, destination, req, defVal) 
                     if (data.error === true)
                         $('#demoForm').show(500);
                     if (flag) {
-                        $("#" + destination).show();
+                        $("#" + destination).show().addClass('chosen-select-dis-search');
+                        jQuery(".chosen-select-dis-search").chosen({
+                            'width': '100%',
+                            'white-space': 'nowrap',
+                            disable_search: true
+                        });
                         $("#" + destination + '_par').fadeIn('slow');
                     }
                 } else {
@@ -174,7 +179,10 @@ function ajaxSubmitForm(form, req, show_alert) {
                         if (req == 'p_login' || req == 'p_register' || req == 'update_user' || req == 'change_pwd') {
                             window.location.href = data.redirect;
                         } else if (req == 'edit_prod') {
-                            $('html,body').animate({scrollTop: 0}, 'slow');
+                            $('html,body').animate({scrollTop: 0}, 'slow', function() {
+                                location.reload();
+                            });
+
                         } else if (req == 'add_prod') {
                             jQuery('#prod_data_det').delay(350).fadeOut(function() {
                                 jQuery('#image_upload_det').delay(350).fadeIn('slow');

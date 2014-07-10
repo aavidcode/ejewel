@@ -65,22 +65,28 @@
                                                                 <tr>
                                                                     <td style="table-layout:fixed">
                                                                         <div style="font-family:Arial;line-height:20px;font-size:13px;width:560px;overflow:hidden;word-wrap:break-word;word-break:normal">
-                                                                            Your email has been activated.
+                                                                            Congratulations, your account has been approved.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
                                                                         <br>
-                                                                        <b>Please find below your login details:</b><br>
+                                                                        <b>Please login with your credentials given below:</b><br>
                                                                         UserName: <?php echo $user->EMAIL_ID; ?><br>
                                                                         Password: <?php echo $user->PASS_WORD; ?>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        Click here to Login:<br><br>
-                                                                        <a href='<?php echo $user->URL.'user/home/'.$user->USER_NAME; ?>'>Login</a>
+                                                                        Click here to View Site:<br><br>
+                                                                        <a href='<?php echo $user->URL.'main/home/'.$user->USER_NAME; ?>'>View Site</a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        Click here to login:<br><br>
+                                                                        <a href='<?php echo $user->URL.'main/login/'.$user->USER_NAME.'/'.$user->USER_ID; ?>'>Admin Login</a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -108,7 +114,7 @@
                                                                     <td>
                                                                         <div style="font-family:Arial;width:530px;overflow:hidden;color:#333333;font-size:13px">
                                                                             Sincerely,<br>
-                                                                            <?php echo $user->TITLE; ?> Team
+                                                                            The <?php echo $user->TITLE; ?> Team
                                                                         </div>
                                                                     </td>
                                                                 </tr>

@@ -1,4 +1,26 @@
-http://103.21.58.156:2082/
+DBs: jwella, test_jwella
+ 
+Login: http://intra.tacto.in/phpmyadmin
+ 
+Basic Auth:
+Username: aavidcode
+Pass: A@vidC0de
+ 
+MySQL:
+User: aavidcode
+Pass: A@vidC0de
+ 
+User: jwella
+Pass: P1yu$h123
 
-http://103.21.58.156:2082/cpsess5525798745/frontend/x3/sql/PhpMyAdmin.html
-shrincro/5p?6cSnNkDfU
+
+The following domain/subdomain point to their respective folders:
+jwella.com >> jwella.com
+test.jwella.com >> test.jwella.com
+jwella.net >> jwella.com 
+ 
+The FTP credentials to access hosting are:
+ 
+IP: 178.79.174.105
+Username: aavidcode
+Password A@vidC0de

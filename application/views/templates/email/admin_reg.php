@@ -53,7 +53,7 @@
 
 
                                                         <div style="font-family:Arial;margin:0px;font-size:13px;line-height:15px">
-                                                            Dear Admin,
+                                                            Attention Admin,
                                                         </div>
                                                         <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                                             <tbody>
@@ -65,16 +65,30 @@
                                                                 <tr>
                                                                     <td style="table-layout:fixed">
                                                                         <div style="font-family:Arial;line-height:20px;font-size:13px;width:560px;overflow:hidden;word-wrap:break-word;word-break:normal">
-                                                                            <?php echo $user->FIRST_NAME; ?> has created account in <?php echo $user->TITLE; ?> platform
+                                                                            A new user has signed up and verified their email address to be a part of the <?php echo $user->TITLE; ?> platform.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
                                                                         <br>
-                                                                        <b>Find below details:</b><br>
+                                                                        <b>Please find below his/her details:</b><br>
                                                                         UserName: <?php echo $user->EMAIL_ID; ?><br>
                                                                         Mobile: +91 <?php echo $user->MOBILE; ?>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div style="font-family:Arial;line-height:20px;font-size:13px;width:560px;overflow:hidden;word-wrap:break-word;word-break:normal">
+                                                                            All User Details captured to be displayed
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div style="font-family:Arial;line-height:20px;font-size:13px;width:560px;overflow:hidden;word-wrap:break-word;word-break:normal">
+                                                                            Please activate/deactivate their account after verifying.
+                                                                        </div>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -102,7 +116,7 @@
                                                                     <td>
                                                                         <div style="font-family:Arial;width:530px;overflow:hidden;color:#333333;font-size:13px">
                                                                             Sincerely,<br>
-                                                                            <?php echo $user->TITLE; ?> Team
+                                                                            The <?php echo $user->TITLE; ?> Team
                                                                         </div>
                                                                     </td>
                                                                 </tr>

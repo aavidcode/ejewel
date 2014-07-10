@@ -18,17 +18,13 @@
         </div>
         <div class="col-md-3 column">
             <h3>CONTACT INFO</h3>
-            1 The Street,
-            Alpha Road,
-            Gamma Town,
-            Countrysville,
-
-            X43 32A 
+            <?php echo ($site_det->ADDRESS.', '.$site_det->CITY.', '.$site_det->STATE); ?>
             <br>
             <br>
 
-            <strong>Telephone:</strong> 0909 111 2233 <br>
-            <strong>E-Mail:</strong> sales@theshop.com
+            <strong>Telephone:</strong> <?php echo $site_det->TELEPHONE; ?> <br>
+            <strong>Mobile:</strong> <?php echo $site_det->MOBILE; ?> <br>
+            <strong>E-Mail:</strong> <?php echo $site_det->EMAIL_ID; ?>
         </div>
         <div class="col-md-3 column">
 
@@ -50,18 +46,6 @@
 <div class="container-fluid bottomfooter">
     <div class="container"> Terms of Service  - Privacy Policy  -   Contact Us  -  Support & FAQ </div>
 </div>
-
-<script>
-    $(function() {
-        $('.chosen-select').chosen();
-        $('.chosen-select-deselect').chosen({allow_single_deselect: true});
-        jQuery(".chosen-select-dis-search").chosen({
-            'width': '100%',
-            'white-space': 'nowrap',
-            disable_search: true
-        });
-    });
-</script>
 
 </body>
 </html>

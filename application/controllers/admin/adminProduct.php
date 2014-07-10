@@ -36,24 +36,46 @@ class AdminProduct extends Component {
         }
     }
 
-    public function upload_prod_images($prod_id='') {
+    public function upload_prod_images($prod_id = '') {
         if ($prod_id == '') {
             $prod_id = ses_data('prod_id');
         }
         $targetFolder = 'uploads/' . ses_data('user_id') . '/' . $prod_id . '/';
-
-        $file_name = upload_file('file', $targetFolder, date('YmdHis') . '.jpg');
-        if ($file_name != '') {
-            $thumb_img = create_thumb($targetFolder, $file_name, $targetFolder, 'thumb_' . $file_name, 300);
-            $prodArr = $this->Product_model->product_details($prod_id);
-            $flag = ($prodArr->PROD_THUMBS == '');
-            $this->Product_model->update_images($prod_id, $thumb_img, $thumb_img, $file_name, $flag);
-            echo $targetFolder . $thumb_img;
-        } else {
-            echo '';
+        if (!file_exists($targetFolder)) {
+            mkdir($targetFolder, 0755, true);
         }
+
+        $str = '';
+        $thumb_img_str = '';
+        $def_thumb_img = '';
+        $img_str = '';
+        $prodArr = $this->Product_model->product_details($prod_id);
+        for ($i = 0; $i < count($_FILES['upload']['name']); $i++) {
+            $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
+            $temp = explode(".", $_FILES['upload']['name'][$i]);
+            $extension = end($temp);
+            if ($tmpFilePath != "") {
+                $newFileName = date('YmdHis') . '.' . $extension;
+                $newFilePath = $targetFolder . $newFileName;
+                if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                    $thumb_img = create_thumb($targetFolder, $newFileName, $targetFolder, 'thumb_' . $newFileName, 300);
+
+                    if ($def_thumb_img == '') {
+                        $def_thumb_img = $thumb_img;
+                    }
+
+                    $thumb_img_str .= $thumb_img . ';';
+                    $img_str .= $newFileName . ';';
+                    $str .= $targetFolder . $newFileName . '#' . $targetFolder . $thumb_img . ';';
+                }
+            }
+        }
+        $thumb_img_str = substr($thumb_img_str, 0, strlen($thumb_img_str) - 1);
+        $img_str = substr($img_str, 0, strlen($img_str) - 1);
+        $this->Product_model->update_images($prod_id, $def_thumb_img, $thumb_img_str, $img_str, ($prodArr->PROD_DEF_THUMB == ''));
+        echo substr($str, 0, strlen($str) - 1);
     }
-    
+
     public function prod_activate() {
         $prod_id = $this->input->post('prod_id');
         $status = $this->input->post('status');

@@ -50,7 +50,7 @@
             var val = $(this).parents('tr').find('input[type="text"]').val();
             var cstone_type_id = $( "#colored_stone_type" ).val();
             //console.log(reqData);
-            alert(cstone_type_id);
+            //alert(cstone_type_id);
             if(cstone_type_id == 0){
                 alert("Please select the Colored Stone Type");
             }
