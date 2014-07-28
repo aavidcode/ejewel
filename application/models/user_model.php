@@ -12,9 +12,9 @@ use models\DBConstants;
 
 class User_model extends CI_Model implements DBConstants {
 
-    public function validateLogin($email_id, $password, $user_id) {
-        $sql = "SELECT * FROM " . self::USER_TABLE . " WHERE EMAIL_ID = ? AND PASS_WORD = ? AND USER_ID = ?";
-        $query = $this->db->query($sql, array($email_id, $password, $user_id));
+    public function validateLogin($email_id, $password) {
+        $sql = "SELECT * FROM " . self::USER_TABLE . " WHERE EMAIL_ID = ? AND PASS_WORD = ?";
+        $query = $this->db->query($sql, array($email_id, $password));
         return $query->row();
     }
 
@@ -42,6 +42,15 @@ class User_model extends CI_Model implements DBConstants {
         if ($query->num_rows() > 0) {
             $query = $query->row();
             return $query->USER_ID;
+        }
+        return '';
+    }
+
+    public function getUserByEmail($email_id) {
+        $sql = "select * from " . self::USER_TABLE . " where EMAIL_ID='" . $email_id . "'";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            return $query->row();
         }
         return '';
     }
@@ -105,20 +114,20 @@ class User_model extends CI_Model implements DBConstants {
     }
 
     public function app_disp_users($userRole, $status) {
-       $userRoleStr = '';
-       if ($userRole != 0) {
-           $userRoleStr = ' AND USER_ROLE = '.$userRole;
-       }
-       $where = "USER_ROLE != 1 AND IS_VERIFIED = 1 AND IS_ACTIVE = $status".$userRoleStr;
-       $query = $this->db->get_where(self::USER_TABLE, $where);
-       //echo $this->db->last_query();
-       return $query->result();
-   }
-
-    public function searchUser($where) {
-        $sql = "select * from " . self::USER_TABLE . " " . "where USER_ROLE != 1 ".($where != "" ? ' AND '.$where : '');
-        $query = $this->db->query($sql);
+        $userRoleStr = '';
+        if ($userRole != 0) {
+            $userRoleStr = ' AND USER_ROLE = ' . $userRole;
+        }
+        $where = "USER_ROLE != 1 AND IS_VERIFIED = 1 AND IS_ACTIVE = $status" . $userRoleStr;
+        $query = $this->db->get_where(self::USER_TABLE, $where);
+        //echo $this->db->last_query();
         return $query->result();
     }
 
+    public function searchUser($where) {
+        $sql = "select * from " . self::USER_TABLE . " " . "where USER_ROLE != 1 " . ($where != "" ? ' AND ' . $where : '');
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+    
 }

@@ -1,3 +1,13 @@
+Client Meeting:
+-----------------
+https://docs.google.com/spreadsheets/d/1rRenIMsFvEzbl-YzT3FVyF8-lEJWENQxbB4ALB5R_Eg/edit#gid=0
+https://docs.google.com/spreadsheets/d/1WTkiz-kKnKYmlifQEMIAEmIQIWOi_h6CrnMi4JmNQRM/edit#gid=1947508647
+
+
+
+
+Website reference links:
+--------------------------
 Lightbox:
 http://www.lokeshdhakar.com/projects/lightbox2/?u=9
 
@@ -14,9 +24,17 @@ http://angular-ui.github.io/bootstrap/
 
 
 http://www.jqueryscript.net/demo/password-strength-meter/
+http://www.zepo.in/
+
+number format: 
+https://github.com/andrewgp/jsNumberFormatter
 
 admin layout:
 http://themepixels.com/demo/webpage/bracket/
 
+main landing Layout:
+http://www.harding.co.uk/clientarea/dev/creativemarket/ecommerce/index.html
 
-http://www.zepo.in/
+http://www.caretlane.com
+
+

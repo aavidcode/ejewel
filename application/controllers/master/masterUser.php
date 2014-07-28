@@ -69,7 +69,7 @@ class MasterUser extends MasterComponent {
         loadMasterView("user/userList", $data);
     }
 
-        public function searchUserDetail($userRole = 0) {
+    public function searchUserDetail($userRole = 0) {
         $data = getMasterCommonData();
         $data['title'] = 'Master Admin';
         $name = $this->input->post('name');
@@ -94,36 +94,41 @@ class MasterUser extends MasterComponent {
         if ($city != '') {
             $where .= "CITY like '%" . $city . "%' or ";
         }
-        
+
         if ($state != '') {
             $where .= "STATE like '%" . $state . "%' or ";
         }
-       
+
         if ($memGjepcNo == 'Y') {
             $where .= "MEM_GJEPC_NO != '' or ";
         }
-        
+
         if ($menGjfNo == 'Y') {
-            $where .= "MEN_GJF_NO != '' or ";
+            $where .= "MEM_GJF_NO != '' or ";
         }
-        
+
         if ($memLocAssName == 'Y') {
             $where .= "MEM_LOC_ASS_NAME != '' or ";
         }
-        
-        $where = substr($where, 0, strlen($where)-4);
-        
+
+        $where = substr($where, 0, strlen($where) - 4);
+
         $data['userArr'] = $this->User_model->searchUser($where);
         loadMasterView("user/userList", $data);
     }
-    
+
     //Apeksha Lad Dated : 8nd July 2014::10.53PM
-    
+
     public function edit($userId) {
         if ($this->input->post()) {
             editUserPost($userId);
+            $res['error'] = false;
+            $res['message'] = 'Updated Successfully';
+            $res['redirect'] = 'master/listAll';
+            json_output($res);
+        } else {
+            editUserUI($userId);
         }
-        editUserUI($userId);
     }
-    
+
 }

@@ -66,7 +66,7 @@
                     <div class="col-md-4 column productbox"> <img src="uploads/<?php echo ($site_user_id.'/'.$prod->PROD_ID.'/'.$prod->PROD_DEF_THUMB)?>" class="img-responsive" alt="Product Image">
                         <div class="producttitle"><?php echo $prod->PROD_NAME; ?></div>
                         <div class="productprice">
-                            <div class="pull-right"><a href="product.html" class="btn btn-danger btn-sm" role="button"><span class="glyphicon glyphicon-shopping-cart"></span> Request</a></div>
+                            <div class="pull-right"><a href="main/proDetail/<?php echo $prod->PROD_ID; ?>" class="btn btn-danger btn-sm" role="button"><span class="glyphicon"></span> View More</a></div>
                             <div class="pricetext">Rs. <?php echo number_format($prod->MF_TOTAL_PRICE, 2); ?></div>
                         </div>
                     </div>

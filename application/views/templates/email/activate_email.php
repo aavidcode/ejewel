@@ -79,14 +79,8 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td>
-                                                                        Click here to View Site:<br><br>
-                                                                        <a href='<?php echo $user->URL.'main/home/'.$user->USER_NAME; ?>'>View Site</a>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
                                                                         Click here to login:<br><br>
-                                                                        <a href='<?php echo $user->URL.'main/login/'.$user->USER_NAME.'/'.$user->USER_ID; ?>'>Admin Login</a>
+                                                                        <a href='<?php echo $user->URL . 'main/login/' . $user->USER_NAME . '/' . $user->USER_ID; ?>'>Admin Login</a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -176,8 +170,6 @@
                     </div>
                 </td>
             </tr>
-
-
         </tbody>
     </table>
     <div class="yj6qo"></div>

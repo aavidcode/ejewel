@@ -63,5 +63,9 @@ class Admin extends AdminUser {
             }
         }
     }
+    
+    public function demo() {
+        echo "hii";
+    }
 
 }

@@ -1,6 +1,6 @@
-<?php
-$header_title = (isset($site_det) && $site_det->HEADER_NAME) ? $site_det->HEADER_NAME : $web_title;
-$logo = (isset($site_det) && $site_det->LOGO ? $site_det->LOGO : '');
+<?php 
+$header_title = ''; //(isset($site_det) && $site_det->HEADER_NAME) ? $site_det->HEADER_NAME : $web_title;
+$logo = ''; //(isset($site_det) && $site_det->LOGO ? $site_det->LOGO : '');
 ?>
 
 
@@ -10,7 +10,7 @@ $logo = (isset($site_det) && $site_det->LOGO ? $site_det->LOGO : '');
         <div class="col-md-8 column">
             <div class="account">
                 <?php if (!isset($hide_login)) { ?>
-                    <a href="main/login/<?php echo $site_user_name . '/' . $site_user_id; ?>" class="btn-primary topbasketbutton"><span class="glyphicon glyphicon-pencil"></span> Login</a>
+                    <a href="main/login/" class="btn-primary topbasketbutton"><span class="glyphicon glyphicon-pencil"></span> Login</a>
                 <?php } ?>
             </div>
         </div>

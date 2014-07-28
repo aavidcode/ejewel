@@ -12,7 +12,7 @@ class AdminProduct extends Component {
     public function product($req, $prod_id = '') {
         if ($req == 'add') {
             addProd();
-        } else if ($req == 'update') {
+        } else if ($req == 'edit') {
             updateProd($prod_id);
         } else if ($req == 'viewAll') {
             viewAllProducts();
@@ -33,6 +33,12 @@ class AdminProduct extends Component {
     public function ajax($req) {
         if ($req == 'c_stone_category') {
             getSubColorStonedTypes();
+        } else if ($req == 'metal_base_rate') {
+            getMetalBaseRate();
+        } else if ($req == 'metal_types') {
+            getMetalTypes();
+        } else if ($req == 'load_products') {
+            loadProducts();
         }
     }
 
@@ -45,7 +51,6 @@ class AdminProduct extends Component {
             mkdir($targetFolder, 0755, true);
         }
 
-        $str = '';
         $thumb_img_str = '';
         $def_thumb_img = '';
         $img_str = '';
@@ -66,14 +71,17 @@ class AdminProduct extends Component {
 
                     $thumb_img_str .= $thumb_img . ';';
                     $img_str .= $newFileName . ';';
-                    $str .= $targetFolder . $newFileName . '#' . $targetFolder . $thumb_img . ';';
                 }
             }
         }
         $thumb_img_str = substr($thumb_img_str, 0, strlen($thumb_img_str) - 1);
         $img_str = substr($img_str, 0, strlen($img_str) - 1);
         $this->Product_model->update_images($prod_id, $def_thumb_img, $thumb_img_str, $img_str, ($prodArr->PROD_DEF_THUMB == ''));
-        echo substr($str, 0, strlen($str) - 1);
+        json_output(array(
+            'path' => $targetFolder,
+            'prod_id' => $prod_id,
+            'imgs' => $img_str
+        ));
     }
 
     public function prod_activate() {
@@ -100,6 +108,63 @@ class AdminProduct extends Component {
         $img = $this->input->post('img');
         $res['error'] = false;
         $this->output->set_content_type('application/json')->set_output(json_encode($res));
+    }
+
+    //Apeksha Lad Dated : 21th July 2014::14.26PM
+
+    public function prod_settings($req = '') {
+        $data = getAdminCommonData();
+        $data['req'] = $req;
+        if ($req == 'brands') {
+            $data['title'] = "Brand Setting";
+            $data['fields'] = "B_ID,B_NAME";
+            $data['settingArr'] = $this->Product_model->getBrands(ses_data('user_id'));
+        } else if ($req == 'collections') {
+            $data['title'] = "Collection Setting";
+            $data['fields'] = "CN_ID,CN_NAME";
+            $data['settingArr'] = $this->Product_model->getCollectionNames(ses_data('user_id'));
+        } else if ($req == 'designers') {
+            $data['title'] = "Designer Setting";
+            $data['fields'] = "D_ID,D_NAME";
+            $data['settingArr'] = $this->Product_model->getDesigners(ses_data('user_id'));
+        }
+        loadAdminView('settings/prod_setting/common_setting', $data);
+    }
+
+    public function save_prod_settings($req = '') {
+        if ($req == 'brands') {
+            addProdSettings(\models\DBConstants::BRAND);
+        } else if ($req == 'collections') {
+            addProdSettings(\models\DBConstants::COLLECTION_NAMES);
+        } else if ($req == 'designers') {
+            addProdSettings(\models\DBConstants::DESIGNER);
+        }
+    }
+
+    public function edit_prod_settings($req = '') {
+        if ($req == 'brands') {
+            editProdSettings(\models\DBConstants::BRAND);
+        }
+        if ($req == 'collections') {
+            editProdSettings(\models\DBConstants::COLLECTION_NAMES);
+        }
+        if ($req == 'designers') {
+            editProdSettings(\models\DBConstants::DESIGNER);
+        }
+    }
+
+    //Apeksha Lad Dated : 22nd July 2014::11.14PM
+
+    public function base_rate_settings() {
+        $data = getAdminCommonData();
+        $data['title'] = "Base Rate Setting";
+        $data['metalQulAry'] = $this->Product_model->getMetalQuality();
+        $data['baseDetArr'] = $this->Product_model->getMetalBaseDetails(ses_data('user_id'));
+        loadAdminView('settings/prod_setting/base_rate_setting', $data);
+    }
+
+    public function add_base_rate() {
+        addBaseRate();
     }
 
 }

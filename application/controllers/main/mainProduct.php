@@ -59,4 +59,11 @@ class MainProduct extends Component {
         }
     }
     
+    public function proDetail($prod_id) {
+        $data = getSiteCommonData();
+        $data['products'] = $this->Product_model->product_details($prod_id);
+        $data['title'] = "Product Detail";
+        loadMainView('product/detail', $data);
+    }
+    
 }

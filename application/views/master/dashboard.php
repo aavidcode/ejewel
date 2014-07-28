@@ -7,7 +7,6 @@
         </ol>
     </div>
 </div>
-
 <div class="contentpanel">   
     <div class="row">      
         <div class="col-sm-6 col-md-3">
@@ -20,7 +19,7 @@
                   </div>
                   <div class="col-xs-8">
                     <small class="stat-label">Total Users</small>
-                    <h1><?php echo $totalUserCount; ?></h1>
+                    <h1><a href="master/listAll/0" style="color:#ffffff"><?php echo $totalUserCount; ?></a></h1>
                   </div>
                 </div><!-- row -->  
               </div><!-- stat -->
@@ -39,7 +38,7 @@
                   </div>
                   <div class="col-xs-8">
                     <small class="stat-label">Pending Users</small>
-                    <h1><?php echo $totalActiveUserCount; ?></h1>
+                    <h1><?php if($totalActiveUserCount ==0) {echo $totalActiveUserCount;} else{echo '<a href="master/approval/0/0" style="color:#ffffff">'.$totalActiveUserCount.'</a>';} ?></h1>
                   </div>
                 </div><!-- row -->
               </div><!-- stat -->

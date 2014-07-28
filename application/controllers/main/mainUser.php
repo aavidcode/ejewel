@@ -19,7 +19,7 @@ class MainUser extends MainProduct {
         redirect('login/'.$user_name.'/'.$user_id);
     }
     
-    public function login($user_name, $user_id) {
+    public function login($user_name='', $user_id='') {
         if ($this->input->post()) {
             validateLogin('admin/dashboard');
         } else {
@@ -48,6 +48,7 @@ class MainUser extends MainProduct {
             json_output($res);
         } else {
             $data['title'] = "User Registration Page";
+            //$data['state_opt'] = state_opt();
             $data['site_user_name'] = '';
             $data['site_user_id'] = '';
             $data['top_menu'] = false;

@@ -49,7 +49,7 @@
         <script src="js/chosen.jquery.min.js"></script>
 
         <script src="js/ajaxCall.js"></script>
-        <script type="text/javascript" src="js/scripts.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
     </head>
 
     <body>

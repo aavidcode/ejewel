@@ -17,7 +17,7 @@ function validateLogin($red_url) {
     $email_id = $CI->input->post('email_id');
     $password = $CI->input->post('pass_word');
     $user_id = $CI->input->post('user_id');
-    $user = $CI->User_model->validateLogin($email_id, $CI->encrypt->my_encode($password), $user_id);
+    $user = $CI->User_model->validateLogin($email_id, $CI->encrypt->my_encode($password));
     $message = validate_user($user);
     if ($message == "") {
         setUserSession($user);
@@ -43,9 +43,11 @@ function getDBComponentData() {
         'stone_seiv_size_to' => $CI->stone_seiv_size_to(),
         'stone_fluorescence' => $CI->stone_fluorescence(),
         'stone_placement' => $CI->stone_placement(),
+        'stone_setting' => $CI->stone_setting(),
         'c_stone_category' => $CI->c_stone_category(),
         'c_stone_color' => $CI->c_stone_color(),
         'c_stone_cut' => $CI->c_stone_cut(),
+        'metal_quality' => $CI->metal_quality()
     );
 }
 
@@ -53,6 +55,7 @@ function setUserSession($user) {
     $CI = & get_instance();
     $CI->session->set_userdata('user_data', array(
         'first_name' => $user->FIRST_NAME,
+        'user_name' => $user->USER_NAME,
         'email_id' => $user->EMAIL_ID,
         'user_role' => $user->USER_ROLE
     ));
@@ -246,4 +249,9 @@ function getRandomAlphaNumericID($length) {
         $random_text .= $final_array[$key];
     }
     return $random_text;
+}
+
+function remove_spec_chars($string) {
+    $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+    return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
 }

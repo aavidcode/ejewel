@@ -13,7 +13,7 @@ class main extends MainUser {
         $this->load->view('index', $data);
     }
 
-    public function home($site_user_name='') {
+    public function home($site_user_name = '') {
         $site_user_id = $this->User_model->getUserID($site_user_name);
         if ($site_user_id) {
             ses_data('site_user_id', $site_user_id);
@@ -29,6 +29,12 @@ class main extends MainUser {
             $data['top_menu'] = false;
             $data['footer_menu'] = false;
             loadMainView('user/page_error', $data);
+        }
+    }
+
+    public function ajax($req = '') {
+        if ($req == 'cities') {
+            populateCities($this->input->post('selVal'));
         }
     }
 
@@ -81,7 +87,8 @@ class main extends MainUser {
     }
 
     public function demo() {
-        echo $this->encrypt->my_encode('admin');
+        $this->load->view('demo');
     }
+
 
 }

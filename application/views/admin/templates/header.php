@@ -57,3 +57,9 @@
         <div id="preloader">
             <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
         </div>
+        
+        <?php 
+        if (!isset($ses_det['user_data']['first_name'])) {
+            echo '<script type="text/javascript">window.location.href="admin/logout"</script>';
+        }
+        ?>

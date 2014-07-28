@@ -17,10 +17,22 @@ function getSiteCommonData($site_user_name = '') {
 
 function create_user() {
     $CI = & get_instance();
+    $website = $CI->input->post('website');
+    $domainName = explode('/',$website);
+    if($domainName[0] == 'http:'){
+        $websiteName = $website;
+    }else{
+        $websiteName = "http://".$website;
+    }  
+    $companyName = $CI->input->post('comp_name');
+    $userName = remove_spec_chars($companyName);
+    $stdCode = $CI->input->post('stdcode');
+    $telephone = $stdCode.'-'.$CI->input->post('telephone');
+    
     return $CI->User_model->saveUser(array(
                 'FIRST_NAME' => $CI->input->post('first_name'),
                 'LAST_NAME' => $CI->input->post('last_name'),
-                'USER_NAME' => $CI->input->post('domain_f_name'),
+                'USER_NAME' => $userName,
                 'EMAIL_ID' => $CI->input->post('email_id'),
                 'PASS_WORD' => $CI->encrypt->my_encode($CI->input->post('pass_word')),
                 'USER_ROLE' => $CI->input->post('user_role'),
@@ -28,31 +40,18 @@ function create_user() {
                 'ADDRESS' => $CI->input->post('address'),
                 'CITY' => $CI->input->post('city'),
                 'STATE' => $CI->input->post('state'),
-                'TELEPHONE' => $CI->input->post('telephone'),
+                'TELEPHONE' => $telephone,
                 'USER_CREATED' => date('Y-m-d H:i:s'),
                 'COMP_NAME' => $CI->input->post('comp_name'),
-                'WEBSITE' => $CI->input->post('website'),
+                'WEBSITE' => $websiteName,
                 'MEM_GJEPC_NO' => $CI->input->post('gjepc_mem_no'),
-                'MEN_GJF_NO' => $CI->input->post('gjf_mem_no'),
+                'MEM_GJF_NO' => $CI->input->post('gjf_mem_no'),
                 'MEM_LOC_ASS_NAME' => $CI->input->post('mem_loc_ass_name'),
                 'MEM_LOC_ASS_CITY' => $CI->input->post('mem_loc_ass_city'),
-                'PINCODE' => $CI->input->post('pincode'),
+                'PINCODE' => $CI->input->post('pincode')
     ));
 }
 
-function update_user() {
-    $CI = & get_instance();
-    return $CI->User_model->updateUser(array(
-                'FIRST_NAME' => $CI->input->post('first_name'),
-                'LAST_NAME' => $CI->input->post('last_name'),
-                'EMAIL_ID' => $CI->input->post('email_id'),
-                'MOBILE' => $CI->input->post('mobile'),
-                'ADDRESS' => $CI->input->post('address'),
-                'TELEPHONE' => $CI->input->post('telephone'),
-                'CITY' => $CI->input->post('city'),
-                'STATE' => $CI->input->post('state')
-                    ), ses_data('user_id'));
-}
 
 function updateCache($user_id) {
     $CI = & get_instance();
@@ -85,3 +84,4 @@ function save_settings() {
                 'LOGO' => $logo,
                 'HEADER_NAME' => $CI->input->post('store_title')), $user_id);
 }
+

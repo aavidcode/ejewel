@@ -3878,6 +3878,10 @@ div.error label.error:before {
     margin-top: 10px;
 }
 
+.mt20 {
+    margin-top: 20px;
+}
+
 .nomargin {
     margin: 0;
 }
@@ -4582,11 +4586,11 @@ p.header {
 }
 
 .l_pad_0 {
-    padding-left: 0;
+    padding-left: 0 !important;
 }
 
 .r_pad_0 {
-    padding-right: 0;
+    padding-right: 0 !important;
 }
 
 .m_0 {
@@ -4600,4 +4604,35 @@ p.header {
 .ready-only {
     border: none;
     background: none;
+}
+
+.p_l_4 {
+    padding-left:4px;
+}
+
+.t_red {
+    color:red;
+    font-size:12px;
+}
+
+.f_12 {
+    font-size:12px;
+}
+
+.f_14 {
+    font-size:14px;
+}
+
+.f_16 {
+    font-size:16px;
+}
+
+.read-only {
+    background: transparent !important;
+    border:none !important;
+}
+
+.prod_td_price {
+    font-size: 12px;
+    padding-right: 15px !important;
 }

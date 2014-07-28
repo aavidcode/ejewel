@@ -127,8 +127,8 @@
                                         echo '<td>' . $user->EMAIL_ID . '</td>';
                                         echo '<td>' . $user->MOBILE . '</td>';
                                         echo '<td>' . $user->CITY . '</td>';
-                                        echo '<td>' . $activated . '</td>';
                                         echo '<td>' . $varified . '</td>';
+                                        echo '<td>' . $activated . '</td>';
                                         echo '<td><a href="master/edit/' . $userId . '" class="fa fa-edit"/><a></td>';
                                         echo '</tr>';
                                         echo '<tr id="inner_dets_' . $userId . '" class="hide">';
@@ -146,7 +146,7 @@
                                                     <th>User Name</th>
                                                     <th>Website</th>
                                                     <th>MEM GJEPC No</th>
-                                                    <th>MEN GJF No</th>
+                                                    <th>MEM GJF No</th>
                                                     <th>MEM LOC ASS Name</th>
                                                     <th>MEM LOC ASS City</th>
                                                 </tr>
@@ -160,7 +160,7 @@
                                                     <td><?php echo $user->USER_NAME; ?></td>
                                                     <td><?php echo $user->WEBSITE; ?></td>
                                                     <td><?php echo $user->MEM_GJEPC_NO; ?></td>
-                                                    <td><?php echo $user->MEN_GJF_NO; ?></td>
+                                                    <td><?php echo $user->MEM_GJF_NO; ?></td>
                                                     <td><?php echo $user->MEM_LOC_ASS_NAME; ?></td>
                                                     <td><?php echo $user->MEM_LOC_ASS_CITY; ?></td>
                                                 </tr>

@@ -49,3 +49,4 @@ function addCStoneComponentDetails($table) {
         'message' => ($flag ? 'Success' : "Failed")
     ));
 }
+

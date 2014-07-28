@@ -78,7 +78,7 @@ if (sizeof($userArr) == 0) {
                                             <th>User Name</th>
                                             <th>Website</th>
                                             <th>MEM GJEPC No</th>
-                                            <th>MEN GJF No</th>
+                                            <th>MEM GJF No</th>
                                             <th>MEM LOC ASS Name</th>
                                             <th>MEM LOC ASS City</th>
                                         </tr>
@@ -92,7 +92,7 @@ if (sizeof($userArr) == 0) {
                                             <td><?php echo $user->USER_NAME; ?></td>
                                             <td><?php echo $user->WEBSITE; ?></td>
                                             <td><?php echo $user->MEM_GJEPC_NO; ?></td>
-                                            <td><?php echo $user->MEN_GJF_NO; ?></td>
+                                            <td><?php echo $user->MEM_GJF_NO; ?></td>
                                             <td><?php echo $user->MEM_LOC_ASS_NAME; ?></td>
                                             <td><?php echo $user->MEM_LOC_ASS_CITY; ?></td>
                                         </tr>

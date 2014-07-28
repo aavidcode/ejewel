@@ -1,18 +1,32 @@
-
-<?php 
-
-$arr = array(
-    'key1' => 'value1',
-    'key2' => 'value2',
-    'key3' => 'value3',
-);
-
-$arr1 = new stdClass();
-$arr1->key1 = "value fd";
-$arr1->key2 = "value2";
-$arr1->key3 = "dfasdfsad";
-
-$arr2 = json_decode(json_encode($arr1),true);
-$arr3 = array_diff_assoc($arr2, $arr);
-print_r($arr3);
-?>
+<html>
+    <head>
+        <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".numbers-only").keydown(function(event) {
+                    // Prevent shift key since its not needed
+                    if (event.shiftKey == true) {
+                        event.preventDefault();
+                    }
+                    // Allow Only: keyboard 0-9, numpad 0-9, backspace, tab, left arrow, right arrow, delete
+                    if ((event.keyCode >= 48 && event.keyCode <= 57) || 
+                            (event.keyCode >= 96 && event.keyCode <= 105) || 
+                            event.keyCode == 8 || 
+                            event.keyCode == 9 || 
+                            event.keyCode == 37 || 
+                            event.keyCode == 39 ||
+                            event.keyCode == 46 || 
+                            ($(this).data('decimal') && event.keyCode == 190 && $(this).val().indexOf('.') === -1)) {
+                        // Allow normal operation
+                    } else {
+                        // Prevent the rest
+                        event.preventDefault();
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <input type="text" name="hello" class="numbers-only" data-decimal="true"/>
+    </body>
+</html>

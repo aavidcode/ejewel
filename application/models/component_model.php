@@ -10,6 +10,11 @@ class Component_model extends CI_Model implements DBConstants {
         return $this->db->insert($table, $data);
     }
 
+    public function insert_record_get_id($table, $data) {
+        $this->db->insert($table, $data);
+        return $this->db->insert_id();
+    }
+
     public function update_record($table, $data, $where) {
         return $this->db->update($table, $data, $where);
         //echo $this->db->last_query();
@@ -46,6 +51,7 @@ class Component_model extends CI_Model implements DBConstants {
 
     public function prod_type() {
         $this->db->cache_on();
+        $this->db->order_by('PROD_TYPE_NAME', 'asc');
         $query = $this->db->get(self::PROD_TYPE);
         return $query->result();
     }
@@ -104,6 +110,12 @@ class Component_model extends CI_Model implements DBConstants {
         return $query->result();
     }
 
+    public function stone_setting() {
+        $this->db->cache_on();
+        $query = $this->db->get(self::STONE_SETTING);
+        return $query->result();
+    }
+
     public function c_stone_color() {
         $this->db->cache_on();
         $query = $this->db->get(self::C_STONE_COLOR);
@@ -119,6 +131,36 @@ class Component_model extends CI_Model implements DBConstants {
     public function c_stone_cut() {
         $this->db->cache_on();
         $query = $this->db->get(self::C_STONE_CUT);
+        return $query->result();
+    }
+
+    public function metal_quality() {
+        $this->db->cache_on();
+        $query = $this->db->get(self::METAL_QUALITY);
+        return $query->result();
+    }
+
+    public function jewel_type() {
+        $this->db->cache_on();
+        $query = $this->db->get(self::JEWEL_TYPE);
+        return $query->result();
+    }
+
+    public function certification() {
+        $this->db->cache_on();
+        $query = $this->db->get(self::CERTIFICATION);
+        return $query->result();
+    }
+
+    public function hallmark() {
+        $this->db->cache_on();
+        $query = $this->db->get(self::HALLMARK);
+        return $query->result();
+    }
+
+    public function hallmark_center() {
+        $this->db->cache_on();
+        $query = $this->db->get(self::HALLMARK_CENTER);
         return $query->result();
     }
 
@@ -138,6 +180,28 @@ class Component_model extends CI_Model implements DBConstants {
 
     public function cstone_type() {
         $sql = "select COMP_TYPE_ID, COMP_TYPE_NAME from " . self::COMPONENT_TYPE . " where COMP_ID = 3";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    public function listFields($table) {
+        return $this->db->list_fields($table);
+    }
+
+    public function getDataByTable($table) {
+        $this->db->cache_on();
+        $query = $this->db->get($table);
+        return $query->result();
+    }
+
+    public function getStates() {
+        $sql = "select distinct(STATE) from " . self::CITIES.' order by STATE ASC';
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    public function getCities($state) {
+        $sql = "select * from " . self::CITIES . " where state='" . $state . "' order by CITY asc";
         $query = $this->db->query($sql);
         return $query->result();
     }

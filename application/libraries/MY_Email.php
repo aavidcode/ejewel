@@ -24,7 +24,7 @@ class MY_Email extends CI_Email {
         
         $this->from($this->CI->config->item('info_email'));
         $this->to($user->EMAIL_ID, $user->FIRST_NAME);
-        $this->subject('Welcome to ' . $user->TITLE);
+        $this->subject('Welcome to ' . $user->TITLE.' Please verify your email address');
         $mailbody = $this->CI->load->view('templates/email/user_reg', $dataArr, true);
         $this->message($mailbody);
         return $this->send();
@@ -52,7 +52,7 @@ class MY_Email extends CI_Email {
         
         $this->from($this->CI->config->item('info_email'));
         $this->to($user->EMAIL_ID, $user->FIRST_NAME);
-        $this->subject('Activated Email :: ' . $user->TITLE);
+        $this->subject($user->TITLE.'- Your Account has been approved');
 
         $mailbody = $this->CI->load->view('templates/email/activate_email', $dataArr, true);
         $this->message($mailbody);
@@ -75,5 +75,20 @@ class MY_Email extends CI_Email {
         $this->message($mailbody);
         return $this->send();
     }
+    
+    //Apeksha Lad Dated : 10nd July 2014::14.00PM
+    public function send_forgetpassword_email($user) {
+        $user->URL = base_url();
+        $user->PASS_WORD = $this->CI->encrypt->my_decode($user->PASS_WORD);
+        $user->TITLE = $this->CI->config->item('website_title');
+        $dataArr['user'] = $user;
+        
+        $this->from($this->CI->config->item('info_email'));
+        $this->to($user->EMAIL_ID, $user->FIRST_NAME);
+        $this->subject('Forget Password Email :: ' . $user->TITLE);
 
+        $mailbody = $this->CI->load->view('templates/email/forget_pwd_email', $dataArr, true);
+        $this->message($mailbody);
+        return $this->send();
+    }
 }

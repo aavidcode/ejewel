@@ -33,14 +33,26 @@ interface DBConstants {
     const STONE_SEIV_SIZE_TO = "stone_seiv_size_to";
     const STONE_FLUORESCENCE = "stone_fluorescence";
     const STONE_PLACEMENT = "stone_placement";
+    const STONE_SETTING = "stone_setting";
     //MF Tables
     const MF_PROD_SUMMARY = "mf_prod_summary";
     const MF_PROD_COMPONENT = 'mf_prod_component';
     const MF_PROD_METAL = 'mf_prod_metal';
-    const MF_PROD_STONE = 'mf_prod_diamond';
+    const MF_PROD_STONE = 'mf_prod_stone';
     const MF_PROD_COLORED_STONE = 'mf_prod_colored_stone';
     const MF_PROD_LABOR = 'mf_prod_labor';
     const MF_PROD_OTHER_CHARGES = 'mf_prod_other_charges';
     const PROD_HISTORY = 'prod_history';
+    
+    const COLLECTION_NAMES = 'collection_names';
+    const DESIGNER = 'designer';
+    const BRAND = 'brand';
+    const MF_BASE_RATE = 'mf_base_rate';
+    const METAL_QUALITY = 'metal_quality';
+    const JEWEL_TYPE = 'jewel_type';
+    const CERTIFICATION = 'certification';
+    const HALLMARK = 'hallmark';
+    const HALLMARK_CENTER = 'hallmark_center';
 
+    const CITIES = 'cities';
 }

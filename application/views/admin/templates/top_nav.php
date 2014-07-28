@@ -1,5 +1,3 @@
-
-
 <div class="mainpanel">
 
     <div class="headerbar">
@@ -23,25 +21,25 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                            <li><a href="user/per_det"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
-                            <li><a href="user/settings"><i class="glyphicon glyphicon-cog"></i> Account Settings</a></li>
+                            <li><a href="admin/per_det"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
+                            <!--<li><a href="user/settings"><i class="glyphicon glyphicon-cog"></i> Account Settings</a></li>-->
+                            <li><a href="admin/change_pwd"><i class="glyphicon glyphicon-upload"></i>Change Password</a></li>
                             <li><a href="admin/logout"><i class="glyphicon glyphicon-log-out"></i> Log Out</a></li>
                         </ul>
                     </div>
                 </li>
-                <!--                            <li>
-                                                <button id="chatview" class="btn btn-default tp-icon chat-icon">
-                                                    <i class="glyphicon glyphicon-comment"></i>
-                                                </button>
-                                            </li>-->
+                <!--<li>
+                    <button id="chatview" class="btn btn-default tp-icon chat-icon">
+                        <i class="glyphicon glyphicon-comment"></i>
+                    </button>
+                </li>-->
             </ul>
         </div><!-- header-right -->
 
     </div><!-- headerbar -->
 
-
-    <script type="text/javascript">
-        function showMySite() {
-            window.open('<?php echo base_url() . 'main/home/' . $site_user_name; ?>', '_blank');
-        }
-    </script>
+<script type="text/javascript">
+    function showMySite() {
+        window.open('<?php echo base_url() . 'main/home/' . $ses_det['user_data']['user_name']; ?>', '_blank');
+    }
+</script>

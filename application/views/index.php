@@ -47,6 +47,9 @@
                         <li class="page-scroll">
                             <a href="main/register"><i class="fa fa-user"></i> Register</a>
                         </li>
+                        <li>
+                            <a href="main/login"><i class="fa fa-user"></i> Login</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
